@@ -1,0 +1,120 @@
+# !STARTERCONF unless a project is marked as "trusted", it can't make directories
+# !  on the runner host
+# There are two options:
+#  1) If you are marked as an "administrator" on the Drone instance, you can mark
+#     your project trusted by going to:
+#              Your Project > Settings > General > Project Settings > Trusted
+#
+#  2) If you are not an administrator, you can disable caching by removing the
+#     "volumes" from everything on here (not recommended)
+
+---
+kind: pipeline
+name: test
+type: docker
+
+steps:
+  - name: dependencies
+    image: node:alpine
+    commands:
+      - yarn
+    volumes:
+      - name: node_cache
+        path: /drone/src/node_modules
+
+  - name: eslint
+    image: node:alpine
+    environment:
+      NEXT_PUBLIC_SUPABASE_URL:
+        from_secret: NEXT_PUBLIC_SUPABASE_URL
+      NEXT_PUBLIC_SUPABASE_ANON_KEY:
+        from_secret: NEXT_PUBLIC_SUPABASE_ANON_KEY
+    commands:
+      - yarn
+      - yarn lint:strict
+    volumes:
+      - name: node_cache
+        path: /drone/src/node_modules
+
+  - name: typecheck
+    image: node:alpine
+    environment:
+      NEXT_PUBLIC_SUPABASE_URL:
+        from_secret: NEXT_PUBLIC_SUPABASE_URL
+      NEXT_PUBLIC_SUPABASE_ANON_KEY:
+        from_secret: NEXT_PUBLIC_SUPABASE_ANON_KEY
+    commands:
+      - yarn
+      - yarn typecheck
+    volumes:
+      - name: node_cache
+        path: /drone/src/node_modules
+
+  - name: prettier
+    image: node:alpine
+    environment:
+      NEXT_PUBLIC_SUPABASE_URL:
+        from_secret: NEXT_PUBLIC_SUPABASE_URL
+      NEXT_PUBLIC_SUPABASE_ANON_KEY:
+        from_secret: NEXT_PUBLIC_SUPABASE_ANON_KEY
+    commands:
+      - yarn
+      - yarn format:check
+    volumes:
+      - name: node_cache
+        path: /drone/src/node_modules
+
+volumes:
+  - name: node_cache
+    host:
+      path: /tmp/cache/drone/node_modules
+
+---
+kind: pipeline
+name: deploy
+type: docker
+
+depends_on:
+  - test
+
+trigger:
+  status:
+    - success
+
+steps:
+  - name: deploy
+    image: docker:dind
+    environment:
+      NEXT_PUBLIC_SUPABASE_URL:
+        from_secret: NEXT_PUBLIC_SUPABASE_URL
+      NEXT_PUBLIC_SUPABASE_ANON_KEY:
+        from_secret: NEXT_PUBLIC_SUPABASE_ANON_KEY
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+      - name: node_cache
+        path: /drone/src/node_modules
+    commands:
+      - touch .env
+      - echo "NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL" > .env
+      - echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY" >> .env
+      # !STARTERCONF change the tag name for your container
+      - docker build $(awk '{printf "--build-arg %s ", $0}' .env) -t username/my-container-tag .
+      # !STARTERCONF change the name of the container
+      - (docker ps -q --filter "name=my-container" | grep -q . && docker stop my-container) || return 0
+      # !STARTERCONF change the ports, name of the container and tag
+      # I recommend exposing the container ONLY to the host and then using an Nginx reverse proxy
+      # to manage SSL (i.e. `-p 127.0.0.1:host_port:3000`). Tutorial (possibly) coming soon.
+      - docker run --env-file ./.env -d -p 3000:3000 --rm --name my-container username/my-container-tag
+    when:
+      branch: main
+      event:
+        - push
+
+volumes:
+  - name: docker_sock
+    host:
+      path: /var/run/docker.sock
+  - name: node_cache
+    host:
+      path: /tmp/cache/drone/node_modules

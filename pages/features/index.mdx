@@ -1,0 +1,278 @@
+import Layout from '@/components/layout/Layout';
+import Seo from '@/components/Seo';
+import toast from 'react-hot-toast';
+import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
+import { Callout } from '@/components/mdx/Callout';
+import { SmallLogo } from '@/components/Logo';
+import { TbAlertTriangle, TbCheck, TbX } from 'react-icons/tb';
+
+# Features
+
+## [Next.js](https://next.js)
+
+## [TypeScript](https://typescriptlang.org)
+
+## [DaisyUI](https://daisyui.com)
+
+DaisyUI utilizes [TailwindCSS](https://tailwindcss.com) to make beautiful components.
+[See the full list of components](https://daisyui.com/components).
+
+```jsx
+<div className='tooltip tooltip-right' data-tip="Who's there?">
+  <button className='btn' onClick={() => toast('Hatch', { icon: '🤧' })}>
+    Knock knock
+  </button>
+</div>
+```
+
+<div className='tooltip tooltip-right' data-tip="Who's there?">
+  <button className='btn' onClick={() => toast('Hatch', { icon: '🤧' })}>
+    Knock knock
+  </button>
+</div>
+
+## [Daisy UI Themes](https://daisyui.com/docs/themes) and [`next-themes`](https://www.npmjs.com/package/next-themes)
+
+Themes need to be updated in `constant/colors.ts` and in `tailwind.config.js`.
+Once updated there, additional colors (content and focused background) are generated automatically.
+
+`next-themes` handles theme changing.
+In its current configuration, it switches between light and dark mode; however, setting up more themes should be very easy.
+
+## [Supabase](https://supabase.com)
+
+Supabase is the free, open-source alternative to Firebase.
+It can handle storage, auth, realtime, and much more.
+
+## [MDX](https://mdxjs.com)
+
+MDX is a superset of Markdown that allows rendering of JSX components.
+
+```jsx
+import { Callout } from '@/components/mdx/Callout';
+
+<Callout type='info'>
+  You can optionally specify the type of a `<Callout />` as one of `info`,
+  `success`, `warning`, or `error`.
+</Callout>;
+```
+
+<Callout type='info'>
+  You can optionally specify the type of a `<Callout />` as one of `info`,
+  `success`, `warning`, or `error`.
+</Callout>
+
+Also, headers automatically get anchor links!
+Hover any header to see it in action.
+
+## [Math with $\KaTeX$](https://katex.org)
+
+$\TeX$-style equations can be rendered inline with a `$`, or as a block with a `$$`.
+
+```latex
+$y = mx + b$ is the slope-intercept form of a line.
+```
+
+$y = mx + b$ is the slope-intercept form of a line.
+
+```latex
+The sum of the first $n$ numbers is defined as
+
+$$
+\displaystyle\sum_{i=1}^{n} i = \frac{(n)(n-1)}{2}
+$$
+```
+
+The sum of the first $n$ numbers is defined as
+
+$$
+\displaystyle\sum_{i=1}^{n} i = \frac{(n)(n-1)}{2}
+$$
+
+## [React Hot Toast](https://react-hot-toast.com)
+
+```javascript
+import toast from 'react-hot-toast';
+
+toast.success('Looks good!');
+toast.error('Something went wrong');
+```
+
+<div className='flex gap-2'>
+  <button className='btn' onClick={() => toast.success('Looks good!')}>
+    <TbCheck className='mr-2' />
+    Success
+  </button>
+  <button className='btn' onClick={() => toast.error('Something went wrong')}>
+    <TbX className='mr-2' />
+    Error
+  </button>
+</div>
+
+RHT can do more! [Check out their website](https://react-hot-toast.com).
+
+## [Default Open Graph](https://github.com/theodorusclarence/og)
+
+Automatically generate OG images and meta using [Theodorus Clarence](https://theodorusclarence.com)'s OG generator.
+
+## [React Hook Form](https://react-hook-form.com)
+
+I've found RHF to be useful for dealing with custom JS forms.
+For an example, see [/features/forms](/features/forms).
+
+<Callout type='warning'>
+  DaisyUI forms have a lot of functionality, but also a lot of bulk. Consider
+  making a component when working with forms.
+</Callout>
+
+## Snippets
+
+Theodorus Clarence created many useful snippets to accelerate development and keep pages consistent.
+Below are the ones I use most, but there are more in `.vscode/typescriptreact.code-snippets`.
+
+```javascript
+// nc
+
+//eslint-disable-next-line no-console
+```
+
+```javascript
+// nany
+
+//eslint-disable-next-line @typescript-eslint/no-explicit-any
+```
+
+```jsx
+// np
+
+import * as React from 'react';
+
+import Layout from '@/components/layout/Layout';
+import Seo from '@/components/Seo';
+
+export default function Page() {
+  return (
+    <Layout>
+      <Seo templateTitle='' />
+
+      <main className='flex flex-grow'>
+        <section className='flex flex-grow'>
+          <div className='layout min-h-screen py-20'></div>
+        </section>
+      </main>
+    </Layout>
+  );
+}
+```
+
+```javascript
+// napi
+
+import { NextApiRequest, NextApiResponse } from 'next';
+
+export default async function Route(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method === 'GET') {
+    res.status(200).json({ name: 'Bambang' });
+  } else {
+    res.status(405).json({ message: 'Method Not Allowed' });
+  }
+}
+```
+
+```javascript
+// nmdx
+
+import Layout from '@/components/layout/Layout';
+import Seo from '@/components/Seo';
+
+export default ({ children }) => (
+  <Layout>
+    <Seo templateTitle='' />
+    <main>
+      <section className=''>
+        <div className='layout prose lg:prose-lg'>{children}</div>
+      </section>
+    </main>
+  </Layout>
+);
+```
+
+## CSS
+
+The `globals.css` file has several opinionated utility classes.
+
+```css
+/**
+ * `height-content`
+ * Use `h-c` for building non-scrollable pages that take up the whole screen
+ */
+.h-c {
+  height: calc(
+    100vh - (var(--h-header) + var(--h-breadcrumbs) + var(--h-footer))
+  );
+}
+
+/**
+ * `min-height-content`
+ * Use `min-h-c` for pretty much everything else
+ */
+.min-h-c {
+  min-height: calc(
+    100vh - (var(--h-header) + var(--h-breadcrumbs) + var(--h-footer))
+  );
+  margin-bottom: calc(var(--h-footer) + 2rem);
+}
+```
+
+<Callout type='info'>
+  The height classes are automatically applied when using the `np` and `nmdx`
+  snippets.
+</Callout>
+
+Use these classes if you want your headers to look the same as they do in `prose`.
+
+```css
+.h1 {
+  @apply text-4xl font-extrabold lg:text-5xl;
+}
+
+.h2 {
+  @apply text-2xl font-bold lg:text-3xl;
+}
+
+.h3 {
+  @apply text-xl font-semibold lg:text-2xl;
+}
+
+.h4 {
+  @apply text-base font-semibold lg:text-lg;
+}
+```
+
+## [Prettier](https://prettier.io)
+
+Automatically format your code.
+
+## [Drone CI](https://drone.io)
+
+I added an example `.drone.yml` and `Dockerfile` for linting and deploying this project to your own host.
+It more than likely won't work out-of-the-box with your infrastructure, but it should be a good starting point.
+
+## [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
+
+Commit messages require a tag to explain the purpose of the commit.
+The tag is most commonly either `feat:` or `fix:`, but there are more tags in the docs.
+
+export default ({ children }) => (
+  <Layout>
+    <Seo templateTitle='Features' />
+    <main>
+      <section className=''>
+        <div className='layout'>
+          <Breadcrumbs />
+          <div className='w-c min-h-c prose lg:prose-lg'>{children}</div>
+        </div>
+      </section>
+    </main>
+  </Layout>
+);
