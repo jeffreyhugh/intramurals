@@ -5,11 +5,11 @@ import { openGraph } from '@/lib/helper';
 
 // !STARTERCONF Change these default meta
 const defaultMeta = {
-  title: 'Starter | Jeffrey Hugh',
-  siteName: 'Starter | Jeffrey Hugh',
-  description: 'Template with Next.js, TypeScript, DaisyUI, and more',
+  title: 'Intramurals',
+  siteName: 'Intramurals',
+  description: 'Enabling recreational athletics for all college students',
   /** Without additional '/' on the end, e.g. https://theodorusclarence.com */
-  url: 'https://jh.ms',
+  url: 'https://www.intramurals.net',
   type: 'website',
   robots: 'follow, index',
   /**
@@ -59,25 +59,9 @@ export default function Seo(props: SeoProps) {
       <meta name='image' property='og:image' content={meta.image} />
       {/* Twitter */}
       <meta name='twitter:card' content='summary_large_image' />
-      <meta name='twitter:site' content='@th_clarence' />
       <meta name='twitter:title' content={meta.title} />
       <meta name='twitter:description' content={meta.description} />
       <meta name='twitter:image' content={meta.image} />
-      {meta.date && (
-        <>
-          <meta property='article:published_time' content={meta.date} />
-          <meta
-            name='publish_date'
-            property='og:publish_date'
-            content={meta.date}
-          />
-          <meta
-            name='author'
-            property='article:author'
-            content='Theodorus Clarence'
-          />
-        </>
-      )}
 
       {/* Favicons */}
       {favicons.map((linkProps) => (
