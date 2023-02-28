@@ -13,7 +13,7 @@ export default function Page() {
         <section className='flex flex-grow'>
           <div className='layout min-h-c'>
             <Breadcrumbs />
-            <h1 className='text-4x1 font-bold'>Jesus</h1>
+            <h1 className='text-4xl font-bold'>Jesus</h1>
           </div>
         </section>
       </main>
