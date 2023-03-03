@@ -47,7 +47,7 @@ export default function Header() {
         <Link className='btn btn-ghost normal-case' href='/'>
           <SmallLogo />
           <div className='divider divider-horizontal hidden md:flex' />
-          <span className='hidden md:inline'>Jeffrey Hugh</span>
+          <span className='hidden md:inline'>Intramurals.net</span>
         </Link>
         <div className='flex gap-2'>
           <div className='hidden gap-2 md:flex'>
