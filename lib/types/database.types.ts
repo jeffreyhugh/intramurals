@@ -122,19 +122,19 @@ export interface Database {
           created_at: string;
           friendly_name: string;
           id: string;
-          latlong: [number, number];
+          latlong: string;
         };
         Insert: {
           created_at?: string;
           friendly_name: string;
           id?: string;
-          latlong: [number, number];
+          latlong: string;
         };
         Update: {
           created_at?: string;
           friendly_name?: string;
           id?: string;
-          latlong?: [number, number];
+          latlong?: string;
         };
       };
       team_memberships: {

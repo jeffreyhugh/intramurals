@@ -8,7 +8,7 @@ import { firstOrOnly } from '@/lib/firstOrOnly';
 import { Database } from '@/lib/types/database.types';
 import { TYPE_LOCATION } from '@/lib/types/rows';
 
-export const useLocations = (id: string) => {
+export const useLocation = (id: string) => {
   const client = useSupabaseClient<Database>();
 
   return useSWR(`location-${id}`, () => locationFetcher(client, id));
