@@ -21,6 +21,29 @@ export default function Header() {
     },
   ];
 
+  const dashboardLinks = [
+    {
+      className: 'btn-ghost ',
+      children: <p className='font-black'>Stats</p>,
+      href: '/stats',
+    },
+    {
+      className: 'btn-ghost ',
+      children: <p className='font-black'>Sports</p>,
+      href: '/sports',
+    },
+    {
+      className: 'btn-ghost ',
+      children: <p className='font-black'>Teams</p>,
+      href: '/Teams',
+    },
+    {
+      className: 'btn-ghost ',
+      children: <p className='font-black'>Schedule</p>,
+      href: '/Schedule',
+    },
+  ];
+
   return (
     <div className='navbar sticky top-0 z-50 border-b border-b-neutral/10 bg-white/10 p-4 backdrop-blur-md'>
       <div className='flex w-full justify-between'>
@@ -44,11 +67,47 @@ export default function Header() {
             ))}
           </ul>
         </div>
+
+        <div className='dropdown-hover dropdown block md:hidden'>
+          <label tabIndex={0} className='btn btn-ghost'>
+            <TbMenu2 className='h-5 w-5' />
+          </label>
+          <ul
+            tabIndex={0}
+            className='dropdown-content menu rounded-box btn-group w-52 border border-neutral/10 bg-base-100 shadow-xl'
+          >
+            {dashboardLinks.map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className={clsxm('btn', item.className || 'btn-ghost')}
+                >
+                  {item.children}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
         <Link className='btn btn-ghost normal-case' href='/'>
           <SmallLogo />
           <div className='divider divider-horizontal hidden md:flex' />
           <span className='hidden md:inline'>Intramurals.net</span>
         </Link>
+
+        <div className='flex gap-2'>
+          <div className='hidden gap-2 md:flex'>
+            {dashboardLinks.map((item) => (
+              <Link
+                href={item.href}
+                className={clsxm('btn', item.className || 'btn-ghost')}
+                key={item.href}
+              >
+                {item.children}
+              </Link>
+            ))}
+          </div>
+        </div>
         <div className='flex gap-2'>
           <div className='hidden gap-2 md:flex'>
             {headerLinks.map((item) => (
