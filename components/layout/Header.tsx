@@ -1,3 +1,4 @@
+import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
 import Link from 'next/link';
 import { TbMenu2 } from 'react-icons/tb';
 
@@ -9,15 +10,28 @@ import ThemeChanger from '@/components/ThemeChanger';
 export default function Header() {
   // children can be a string or JSX
   // className can change the button type
+  const supabase = createBrowserSupabaseClient();
+
   const headerLinks = [
     {
-      className: 'btn-primary',
-      children: <p className='font-black'>Features</p>,
-      href: '/features',
+      className: 'btn-ghost ',
+      children: <p className='font-black'>Stats</p>,
+      href: '/stats',
     },
     {
-      children: 'Forms',
-      href: '/features/forms',
+      className: 'btn-ghost ',
+      children: <p className='font-black'>Events</p>,
+      href: '/events',
+    },
+    {
+      className: 'btn-ghost ',
+      children: <p className='font-black'>Teams</p>,
+      href: '/teams',
+    },
+    {
+      className: 'btn-ghost ',
+      children: <p className='font-black'>Schedule</p>,
+      href: '/schedule',
     },
   ];
 
@@ -61,6 +75,13 @@ export default function Header() {
               </Link>
             ))}
           </div>
+          <button
+            className={clsxm('btn', 'btn-ghost ' || 'btn-ghost')}
+            onClick={() => supabase.auth.signOut()}
+          >
+            {' '}
+            SignOut{' '}
+          </button>
           <ThemeChanger />
         </div>
       </div>
