@@ -70,9 +70,3 @@
     visibility: hidden;
   }
 }
-
-.container-redshadow {
-  min-width: 300px;
-  box-shadow: -2px 1px 69px 5px rgb(202, 37, 37);
-  border-radius: 1rem;
-}

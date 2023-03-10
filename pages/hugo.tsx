@@ -4,16 +4,16 @@ import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
 
-export default function Facilties() {
+export default function Page() {
   return (
     <Layout>
-      <Seo templateTitle='Facilties' />
+      <Seo templateTitle='Hugo' />
 
       <main className='flex flex-grow'>
         <section className='flex flex-grow'>
           <div className='layout min-h-c'>
             <Breadcrumbs />
-            <h1 className='text-4xl font-bold'>Facilties</h1>
+            <h1 className='text-3xl font-bold'>Hugo</h1>
           </div>
         </section>
       </main>
