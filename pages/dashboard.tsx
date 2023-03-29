@@ -7,18 +7,20 @@ import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
 
 export default function Page() {
-  // TODO make hook for schedule
+  // TODO what data do we need here?
 
   return (
     <Layout>
-      <Seo templateTitle='Schedule' />
+      <Seo templateTitle='Dashboard' />
 
       <main className='flex flex-grow'>
         <section className='flex flex-grow'>
           <div className='layout min-h-c'>
             <Breadcrumbs />
-            <h1 className='mt-6 text-4xl font-bold'>Schedule</h1>
-            <div className='mt-6 w-full'></div>
+            <h1 className='mt-6 text-4xl font-bold'>Dashboard</h1>
+            <div className='mt-6 w-full'>
+              <>TODO what data do we need here?</>
+            </div>
           </div>
         </section>
       </main>
