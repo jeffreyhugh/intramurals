@@ -117,24 +117,81 @@ export interface Database {
           played_at?: string;
         };
       };
-      locations: {
+      groupchat_data: {
+        Row: {
+          content: string;
+          created_at: string;
+          from_user_id: string;
+          id: string;
+          to_group_id: string;
+        };
+        Insert: {
+          content: string;
+          created_at?: string;
+          from_user_id: string;
+          id?: string;
+          to_group_id: string;
+        };
+        Update: {
+          content?: string;
+          created_at?: string;
+          from_user_id?: string;
+          id?: string;
+          to_group_id?: string;
+        };
+      };
+      groupchat_memberships: {
+        Row: {
+          created_at: string;
+          groupchat_id: string;
+          user_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          groupchat_id: string;
+          user_id: string;
+        };
+        Update: {
+          created_at?: string;
+          groupchat_id?: string;
+          user_id?: string;
+        };
+      };
+      groupchats: {
         Row: {
           created_at: string;
           friendly_name: string;
           id: string;
-          latlong: string;
         };
         Insert: {
           created_at?: string;
           friendly_name: string;
           id?: string;
-          latlong: string;
         };
         Update: {
           created_at?: string;
           friendly_name?: string;
           id?: string;
-          latlong?: string;
+        };
+      };
+      locations: {
+        Row: {
+          created_at: string;
+          friendly_name: string;
+          id: string;
+          latlong: unknown;
+        };
+        Insert: {
+          created_at?: string;
+          friendly_name: string;
+          id?: string;
+          latlong: unknown;
+        };
+        Update: {
+          created_at?: string;
+          friendly_name?: string;
+          id?: string;
+          latlong?: unknown;
         };
       };
       team_memberships: {
@@ -180,9 +237,116 @@ export interface Database {
           id?: string;
         };
       };
+      user_metadata: {
+        Row: {
+          created_at: string;
+          first_name: string;
+          id: string;
+          last_name: string | null;
+          pfp_url: string | null;
+          student_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          first_name: string;
+          id: string;
+          last_name?: string | null;
+          pfp_url?: string | null;
+          student_id: string;
+        };
+        Update: {
+          created_at?: string;
+          first_name?: string;
+          id?: string;
+          last_name?: string | null;
+          pfp_url?: string | null;
+          student_id?: string;
+        };
+      };
     };
     Views: {
-      [_ in never]: never;
+      my_events: {
+        Row: {
+          created_at: string | null;
+          default_location_id: string | null;
+          friendly_name: string | null;
+          higher_is_better: boolean | null;
+          icon_url: string | null;
+          id: string | null;
+          max_team_size: number | null;
+          max_teams: number | null;
+          meets_on: string | null;
+          min_team_size: number | null;
+          preseason_end: string | null;
+          preseason_start: string | null;
+          registration_end: string | null;
+          registration_start: string | null;
+          time_end: string | null;
+          time_start: string | null;
+        };
+        Insert: {
+          created_at?: string | null;
+          default_location_id?: string | null;
+          friendly_name?: string | null;
+          higher_is_better?: boolean | null;
+          icon_url?: string | null;
+          id?: string | null;
+          max_team_size?: number | null;
+          max_teams?: number | null;
+          meets_on?: string | null;
+          min_team_size?: number | null;
+          preseason_end?: string | null;
+          preseason_start?: string | null;
+          registration_end?: string | null;
+          registration_start?: string | null;
+          time_end?: string | null;
+          time_start?: string | null;
+        };
+        Update: {
+          created_at?: string | null;
+          default_location_id?: string | null;
+          friendly_name?: string | null;
+          higher_is_better?: boolean | null;
+          icon_url?: string | null;
+          id?: string | null;
+          max_team_size?: number | null;
+          max_teams?: number | null;
+          meets_on?: string | null;
+          min_team_size?: number | null;
+          preseason_end?: string | null;
+          preseason_start?: string | null;
+          registration_end?: string | null;
+          registration_start?: string | null;
+          time_end?: string | null;
+          time_start?: string | null;
+        };
+      };
+      my_teams: {
+        Row: {
+          captain_id: string | null;
+          created_at: string | null;
+          event_id: string | null;
+          friendly_name: string | null;
+          icon_url: string | null;
+          id: string | null;
+        };
+        Insert: {
+          captain_id?: string | null;
+          created_at?: string | null;
+          event_id?: string | null;
+          friendly_name?: string | null;
+          icon_url?: string | null;
+          id?: string | null;
+        };
+        Update: {
+          captain_id?: string | null;
+          created_at?: string | null;
+          event_id?: string | null;
+          friendly_name?: string | null;
+          icon_url?: string | null;
+          id?: string | null;
+        };
+      };
     };
     Functions: {
       [_ in never]: never;
