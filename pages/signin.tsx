@@ -1,78 +1,220 @@
-//import styles from './styles/login.module.css'
-import {
-  useSessionContext,
-  useSupabaseClient,
-} from '@supabase/auth-helpers-react';
-import { Auth } from '@supabase/auth-ui-react';
-import { ThemeSupa } from '@supabase/auth-ui-shared';
-import Router from 'next/router';
-import { useEffect, useState } from 'react';
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { useRouter } from 'next/router';
+import * as React from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+import { TbAlertOctagon } from 'react-icons/tb';
 
-import { SmallLogo } from '@/components/Logo';
+import clsxm from '@/lib/clsxm';
+import { firstOrOnly } from '@/lib/firstOrOnly';
+import { Database } from '@/lib/types/database.types';
 
-const radii = ['5px', '10px', '20px'] as const;
+import Layout from '@/components/layout/Layout';
+import Seo from '@/components/Seo';
 
-function SignIn() {
-  const supabase = useSupabaseClient();
-  const { isLoading, session } = useSessionContext();
+type SignInFormValues = {
+  email: string;
+  password: string;
+};
 
-  const [borderRadius] = useState(radii[1] as string);
-  const [theme] = useState('dark');
-  //const router = useRouter();
+export default function Page() {
+  const client = useSupabaseClient<Database>();
+  const [loginError, setLoginError] = React.useState('');
+  const [isLoading, setIsLoading] = React.useState(false);
+  const router = useRouter();
 
-  useEffect(() => {
-    if (isLoading == false && session) {
-      Router.push('/home');
+  const redirectTo = decodeURIComponent(
+    firstOrOnly(router.query.redirectTo, '/dashboard')
+  );
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm<SignInFormValues>();
+
+  const onSubmit = handleSubmit(async (data) => {
+    setIsLoading(true);
+
+    const res = await client.auth.signInWithPassword({
+      email: data.email,
+      password: data.password,
+    });
+
+    if (res.error) {
+      toast.error('Something went wrong');
+      //eslint-disable-next-line no-console
+      console.error(res.error);
+      setLoginError(res.error.message);
+    } else {
+      toast.success('Looks good!');
+      router.push(redirectTo);
     }
-  }, [isLoading, session]);
 
-  // console.log(session)
+    setIsLoading(false);
+  });
+
+  const magicLink = async () => {
+    setIsLoading(true);
+    const email = watch('email');
+    if (email === '') {
+      toast.error('Please enter your email');
+      setIsLoading(false);
+      return;
+    }
+
+    const res = await client.auth.signInWithOtp({
+      email: email,
+      options: {
+        emailRedirectTo: `${window.location.origin}/dashboard`,
+      },
+    });
+
+    if (res.error) {
+      toast.error('Something went wrong');
+      //eslint-disable-next-line no-console
+      console.error(res.error);
+    } else {
+      toast.success('Check your email for a magic link');
+    }
+
+    setIsLoading(false);
+  };
+
+  const resetPassword = async () => {
+    setIsLoading(true);
+    const email = watch('email');
+    if (email === '') {
+      toast.error('Please enter your email');
+      setIsLoading(false);
+      return;
+    }
+
+    const res = await client.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset`,
+    });
+
+    if (res.error) {
+      toast.error('Something went wrong');
+      //eslint-disable-next-line no-console
+      console.error(res.error);
+    } else {
+      toast.success('Check your email for a password reset link');
+    }
+
+    setIsLoading(false);
+  };
+
   return (
-    <div className='dark:bg-scale-200 bg-scale-100 relative py-2 pb-16'>
-      <div className='sm:py-18 gap container relative mx-auto grid grid-cols-1 px-6   md:gap-16 md:py-24 lg:gap-16 lg:px-16 lg:py-24 xl:px-20'>
-        <div className='relative col-span-12 mb-16 md:col-span-7 md:mb-0 lg:col-span-6'>
-          <div className='relative bg-zinc-900 lg:mx-auto lg:max-w-md'>
-            <div className='container-redshadow'>
-              <div className='border-scale-400 bg-scale-300 relative rounded-xl px-8 py-12 drop-shadow-sm'>
-                <div className='mb-6 flex flex-col gap-6'>
-                  <div className='flex items-center gap-3'>
-                    <h1 className='text-scale-1200 text-2xl'>
-                      <SmallLogo /> intramurals
-                    </h1>
+    <Layout>
+      <Seo templateTitle='Sign In' />
+
+      <main className='flex flex-grow'>
+        <section className='flex flex-grow'>
+          <div className='layout'>
+            <div className='flex flex-col items-center justify-center'>
+              <h1 className='mt-6 text-4xl font-bold'>Sign In</h1>
+              <form
+                className='form-control mt-4 w-11/12 max-w-lg'
+                onSubmit={onSubmit}
+              >
+                {loginError !== '' ? (
+                  <div className='alert alert-error'>
+                    <div className='flex'>
+                      <TbAlertOctagon />
+                      {loginError}
+                    </div>
                   </div>
-                  <p className='text-scale-1100 text-auth-widget-test'>
-                    Sign in to access Intramurals
-                  </p>
-                </div>
-                <Auth
-                  supabaseClient={supabase}
-                  appearance={{
-                    theme: ThemeSupa,
-                    style: {
-                      button: {
-                        borderRadius: borderRadius,
-                        borderColor: 'rgba(0,0,0,0)',
-                      },
-                    },
-                    variables: {
-                      default: {
-                        colors: {
-                          brand: '#d21533', //set to primary
-                          brandAccent: `#a10729`, //set to secondary
-                        },
-                      },
-                    },
-                  }}
-                  providers={['apple', 'google', 'github']}
-                  theme={theme}
+                ) : null}
+
+                <label htmlFor='email' className='label'>
+                  <span className='label-text'>Email</span>
+                  <span className='label-text-alt'>Required</span>
+                </label>
+                <input
+                  type='email'
+                  className={clsxm(
+                    'input-bordered input w-full',
+                    errors.email && 'input-error'
+                  )}
+                  placeholder='you@example.com'
+                  id='email'
+                  {...register('email', {
+                    required: 'This field is required',
+                  })}
                 />
-              </div>
+                {errors.email ? (
+                  <label htmlFor='email' className='label'>
+                    <span className='label-text-alt text-error'>
+                      {errors.email.message}
+                    </span>
+                  </label>
+                ) : null}
+
+                <label htmlFor='password' className='label'>
+                  <span className='label-text'>Password</span>
+                  <span className='label-text-alt'>Required</span>
+                </label>
+                <input
+                  type='password'
+                  className={clsxm(
+                    'input-bordered input w-full',
+                    errors.password && 'input-error'
+                  )}
+                  id='password'
+                  {...register('password', {
+                    required: 'This field is required',
+                  })}
+                />
+                {errors.password ? (
+                  <label htmlFor='password' className='label'>
+                    <span className='label-text-alt text-error'>
+                      {errors.password?.message}
+                    </span>
+                  </label>
+                ) : null}
+
+                <button
+                  className={clsxm(
+                    'btn btn-primary mt-6',
+                    isLoading && 'loading'
+                  )}
+                  disabled={isLoading}
+                  type='submit'
+                >
+                  Login
+                </button>
+
+                <div className='mt-4 flex flex-col gap-4 md:flex-row'>
+                  <button
+                    onClick={magicLink}
+                    className={clsxm(
+                      'btn-outline btn flex-grow',
+                      isLoading && 'loading'
+                    )}
+                    disabled={isLoading}
+                    type='button'
+                  >
+                    Email me a link
+                  </button>
+                  <button
+                    onClick={resetPassword}
+                    className={clsxm(
+                      'btn-outline btn flex-grow',
+                      isLoading && 'loading'
+                    )}
+                    disabled={isLoading}
+                    type='button'
+                  >
+                    Reset my password
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </section>
+      </main>
+    </Layout>
   );
 }
-
-export default SignIn;

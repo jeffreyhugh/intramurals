@@ -1,39 +1,99 @@
-import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
+import { ReactNode } from '@mdx-js/react/lib';
+import { useUser } from '@supabase/auth-helpers-react';
 import Link from 'next/link';
-import { TbMenu2 } from 'react-icons/tb';
+import { TbMenu2, TbUser } from 'react-icons/tb';
 
 import clsxm from '@/lib/clsxm';
+import { useIsAdmin } from '@/lib/hooks/useIsAdmin';
 
 import { SmallLogo } from '@/components/Logo';
 import ThemeChanger from '@/components/ThemeChanger';
 
+type HeaderLink = {
+  className?: string;
+  children: ReactNode;
+  href: string;
+};
+
 export default function Header() {
   // children can be a string or JSX
   // className can change the button type
-  const supabase = createBrowserSupabaseClient();
 
-  const headerLinks = [
-    {
-      className: 'btn-ghost ',
-      children: <p className='font-black'>Stats</p>,
-      href: '/stats',
-    },
-    {
-      className: 'btn-ghost ',
-      children: <p className='font-black'>Events</p>,
-      href: '/events',
-    },
-    {
-      className: 'btn-ghost ',
-      children: <p className='font-black'>Teams</p>,
-      href: '/teams',
-    },
-    {
-      className: 'btn-ghost ',
-      children: <p className='font-black'>Schedule</p>,
-      href: '/schedule',
-    },
-  ];
+  let headerLinks: HeaderLink[] = [];
+
+  const user = useUser();
+  const isAdmin = useIsAdmin();
+
+  // is loading, help reduce cumulative layout shift
+  if (isAdmin.isLoading) {
+    headerLinks = [];
+  }
+
+  // if the user is logged in and is an admin
+  // user: check if a session exists
+  // isAdmin.isLoading: could be fetching admin status, default to false
+  // isAdmin.data: true if user is an admin
+  else if (user && !isAdmin.isLoading && isAdmin.data) {
+    headerLinks = [
+      {
+        className: 'btn-ghost',
+        children: 'Dashboard',
+        href: '/dashboard',
+      },
+      {
+        className: 'btn-ghost',
+        children: <TbUser className='h-5 w-5' title='Account' />,
+        href: '/account',
+      },
+    ];
+  }
+
+  // if the user is logged in but not an admin
+  else if (user) {
+    headerLinks = [
+      {
+        className: 'btn-ghost',
+        children: 'Dashboard',
+        href: '/dashboard',
+      },
+      {
+        className: 'btn-ghost',
+        children: 'Sports',
+        href: '/sports',
+      },
+      {
+        className: 'btn-ghost',
+        children: 'My Teams',
+        href: '/teams',
+      },
+      {
+        className: 'btn-ghost',
+        children: 'Schedule',
+        href: '/schedule',
+      },
+      {
+        className: 'btn-ghost',
+        children: 'Stats',
+        href: '/stats',
+      },
+      {
+        className: 'btn-ghost',
+        children: <TbUser className='h-5 w-5' title='Account' />,
+        href: '/account',
+      },
+    ];
+  }
+
+  // not logged in
+  else {
+    headerLinks = [
+      {
+        className: 'btn-primary',
+        children: 'Sign In',
+        href: '/signin',
+      },
+    ];
+  }
 
   return (
     <div className='navbar sticky top-0 z-50 border-b border-b-neutral/10 bg-white/10 p-4 backdrop-blur-md'>
@@ -75,13 +135,6 @@ export default function Header() {
               </Link>
             ))}
           </div>
-          <button
-            className={clsxm('btn', 'btn-ghost ' || 'btn-ghost')}
-            onClick={() => supabase.auth.signOut()}
-          >
-            {' '}
-            SignOut{' '}
-          </button>
           <ThemeChanger />
         </div>
       </div>
