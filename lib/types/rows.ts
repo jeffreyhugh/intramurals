@@ -9,5 +9,10 @@ export type TYPE_TEAM_MEMBERSHIP =
 export type TYPE_TEAM = Database['public']['Tables']['teams']['Row'];
 export type TYPE_USER_METADATA =
   Database['public']['Tables']['user_metadata']['Row'];
+export type TYPE_GROUPCHAT = Database['public']['Tables']['groupchats']['Row'];
 
 export type TYPE_MY_TEAM = Database['public']['Views']['my_teams']['Row'];
+export type TYPE_GROUPCHAT_MEMBERSHIP_FRIENDLY =
+  Database['public']['Views']['groupchat_memberships_friendly']['Row'];
+export type TYPE_GROUPCHAT_DATA_FRIENDLY =
+  Database['public']['Views']['groupchat_data_friendly']['Row'];
