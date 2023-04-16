@@ -15,7 +15,7 @@ import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
 import Skeleton from '@/components/Skeleton';
 import { SomethingWentWrong } from '@/components/SomethingWentWrong';
-// import { Database } from '../database.types'
+import { Database } from '@/lib/types/database.types'
 
 type FormValues = {
   defaultLocationId?: string | null;
@@ -149,11 +149,7 @@ export default function Page() {
                                 key={index}
                               >
                                 <Link
-                                  href={{
-                                    pathname: `/teams?redirectTo=${encodeURIComponent(
-                                      event.id
-                                    )}`,
-                                  }}
+                                  href={`/teams/${event.id}`}
                                 >
                                   <div className='align-center relative flex content-center items-center space-x-4'>
                                     <Image
@@ -200,7 +196,7 @@ export default function Page() {
 }
 
 const Adminform = () => {
-  const supabase = useSupabaseClient();
+  const supabase = useSupabaseClient<Database>();
 
   const {
     register,
@@ -245,7 +241,7 @@ const Adminform = () => {
         <h1 className='h1'>Add event</h1>
         <form className='form-control mt-6 md:w-128' onSubmit={onSubmit}>
           <div>
-            {/* <button onClick={()=>console.log(watch('firstName'))}>Event name </button> */}
+
             <div>
               <h4 className='h4'>Event Name</h4>
             </div>
@@ -258,7 +254,7 @@ const Adminform = () => {
               placeholder='Co-rec volleybal'
               id='friendlyName'
               {...register('friendlyName', {
-                required: 'You must give Big Brother your first name',
+                required: 'You need to give your event a name',
               })}
             />
             <label htmlFor='friendlyName' className='label'>
@@ -280,7 +276,7 @@ const Adminform = () => {
               placeholder='Mama'
               id='division'
               {...register('division', {
-                required: 'You must choose the best animal',
+                required: 'You need to give your event a division',
               })}
             >
               {/* use a zero-width space to prevent the option from being re-chosen through the keyboard */}
@@ -383,9 +379,7 @@ const Adminform = () => {
               <input
                 type='date'
                 id='preseasonStart'
-                {...register('preseasonStart', {
-                  required: 'You must enter a start date',
-                })}
+                {...register('preseasonStart')}
               />
 
               <label className='label' htmlFor='preseasonEnd'>
@@ -394,9 +388,7 @@ const Adminform = () => {
               <input
                 type='date'
                 id='preseasonEnd'
-                {...register('preseasonEnd', {
-                  required: 'You must enter an end date',
-                })}
+                {...register('preseasonEnd')}
               />
             </div>
           </div>
@@ -415,7 +407,9 @@ const Adminform = () => {
                 className='input-bordered input w-full'
                 placeholder='10'
                 id='minTeamSize'
-                {...register('minTeamSize')}
+                {...register('minTeamSize', {
+                  required: 'You must enter a minimum team size',
+                })}
               />
               <label htmlFor='minTeamSize' className='label'>
                 <span className='label-text-alt text-error'>
@@ -431,7 +425,9 @@ const Adminform = () => {
                 className='input-bordered input w-full'
                 placeholder='10'
                 id='maxTeamSize'
-                {...register('maxTeamSize')}
+                {...register('maxTeamSize', {
+                  required: 'You must enter maximum team size',
+                })}
               />
               <label htmlFor='maxTeamSize' className='label'>
                 <span className='label-text-alt text-error'>
@@ -457,7 +453,9 @@ const Adminform = () => {
                 className='input-bordered input w-full'
                 placeholder='4'
                 id='maxTeams'
-                {...register('maxTeams')}
+                {...register('maxTeams', {
+                  required: 'You must enter the maximum number of teams allowed',
+                })}
               />
               <label htmlFor='maxTeams' className='label'>
                 <span className='label-text-alt text-error'>
