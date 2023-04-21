@@ -9,13 +9,13 @@ import { toast } from 'react-hot-toast';
 import { useEvents } from '@/lib/hooks/useEvents';
 import { useIsAdmin } from '@/lib/hooks/useIsAdmin';
 import { requireAuth } from '@/lib/requireAuth';
+import { Database } from '@/lib/types/database.types';
 
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
 import Skeleton from '@/components/Skeleton';
 import { SomethingWentWrong } from '@/components/SomethingWentWrong';
-import { Database } from '@/lib/types/database.types'
 
 type FormValues = {
   defaultLocationId?: string | null;
@@ -46,7 +46,7 @@ export default function Page() {
     console.error(sports.error);
   }
 
-  const curDate = DateTime.now().toISO() || "0";
+  const curDate = DateTime.now().toISO() || '0';
   return (
     <Layout>
       <Seo templateTitle='Sports' />
@@ -85,7 +85,7 @@ export default function Page() {
                           </div>
                         </div>
                         {sports?.data?.map((event, index) => {
-                          if (curDate  > event.registration_end ) {
+                          if (curDate > event.registration_end) {
                             //if registration is closed
                             return (
                               <div
@@ -141,16 +141,14 @@ export default function Page() {
                           </div>
                         </div>
                         {sports?.data?.map((event, index) => {
-                          if (curDate  < event.registration_end) {
+                          if (curDate < event.registration_end) {
                             //if registration is still open
                             return (
                               <div
                                 className='bg relative flex w-full content-center items-center justify-between'
                                 key={index}
                               >
-                                <Link
-                                  href={`/teams/${event.id}`}
-                                >
+                                <Link href={`/teams/${event.id}`}>
                                   <div className='align-center relative flex content-center items-center space-x-4'>
                                     <Image
                                       width={100}
@@ -241,7 +239,6 @@ const Adminform = () => {
         <h1 className='h1'>Add event</h1>
         <form className='form-control mt-6 md:w-128' onSubmit={onSubmit}>
           <div>
-
             <div>
               <h4 className='h4'>Event Name</h4>
             </div>
@@ -454,7 +451,8 @@ const Adminform = () => {
                 placeholder='4'
                 id='maxTeams'
                 {...register('maxTeams', {
-                  required: 'You must enter the maximum number of teams allowed',
+                  required:
+                    'You must enter the maximum number of teams allowed',
                 })}
               />
               <label htmlFor='maxTeams' className='label'>
