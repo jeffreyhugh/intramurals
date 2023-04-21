@@ -46,6 +46,7 @@ export interface Database {
           registration_start: string;
           time_end: string | null;
           time_start: string | null;
+          division: string | null;
         };
         Insert: {
           created_at?: string;
@@ -66,6 +67,7 @@ export interface Database {
           registration_start: string;
           time_end?: string | null;
           time_start?: string | null;
+          division: string | null;
         };
         Update: {
           created_at?: string;
@@ -86,6 +88,7 @@ export interface Database {
           registration_start?: string;
           time_end?: string | null;
           time_start?: string | null;
+          division: string | null;
         };
       };
       games: {

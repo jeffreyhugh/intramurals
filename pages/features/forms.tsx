@@ -18,6 +18,7 @@ type FormValues = {
 export default function Page() {
   const {
     register,
+    //watch,
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>();
