@@ -46,7 +46,6 @@ export interface Database {
           registration_start: string;
           time_end: string | null;
           time_start: string | null;
-          division: string | null;
         };
         Insert: {
           created_at?: string;
@@ -67,7 +66,6 @@ export interface Database {
           registration_start: string;
           time_end?: string | null;
           time_start?: string | null;
-          division: string | null;
         };
         Update: {
           created_at?: string;
@@ -88,7 +86,6 @@ export interface Database {
           registration_start?: string;
           time_end?: string | null;
           time_start?: string | null;
-          division: string | null;
         };
       };
       games: {
@@ -252,24 +249,30 @@ export interface Database {
           first_name: string;
           id: string;
           last_name: string | null;
+          loses: number | null;
           pfp_url: string | null;
           student_id: string;
+          wins: number | null;
         };
         Insert: {
           created_at?: string;
           first_name: string;
           id: string;
           last_name?: string | null;
+          loses?: number | null;
           pfp_url?: string | null;
           student_id: string;
+          wins?: number | null;
         };
         Update: {
           created_at?: string;
           first_name?: string;
           id?: string;
           last_name?: string | null;
+          loses?: number | null;
           pfp_url?: string | null;
           student_id?: string;
+          wins?: number | null;
         };
       };
     };
