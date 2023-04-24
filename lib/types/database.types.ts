@@ -220,7 +220,7 @@ export interface Database {
           created_at: string;
           event_id: string;
           friendly_name: string;
-          icon_url: string | null;
+          team_logo_url: string | null;
           id: string;
         };
         Insert: {
@@ -228,7 +228,7 @@ export interface Database {
           created_at?: string;
           event_id: string;
           friendly_name: string;
-          icon_url?: string | null;
+          team_logo_url?: string | null;
           id?: string;
         };
         Update: {
@@ -236,7 +236,7 @@ export interface Database {
           created_at?: string;
           event_id?: string;
           friendly_name?: string;
-          icon_url?: string | null;
+          team_logo_url?: string | null;
           id?: string;
         };
       };

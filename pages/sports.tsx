@@ -9,13 +9,13 @@ import { toast } from 'react-hot-toast';
 import { useEvents } from '@/lib/hooks/useEvents';
 import { useIsAdmin } from '@/lib/hooks/useIsAdmin';
 import { requireAuth } from '@/lib/requireAuth';
+import { Database } from '@/lib/types/database.types';
 
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
 import Skeleton from '@/components/Skeleton';
 import { SomethingWentWrong } from '@/components/SomethingWentWrong';
-import { Database } from '@/lib/types/database.types'
 
 type FormValues = {
   defaultLocationId?: string | null;
@@ -46,7 +46,7 @@ export default function Page() {
     console.error(sports.error);
   }
 
-  const curDate = DateTime.now().toISO() || "0";
+  const curDate = DateTime.now().toISO() || '0';
   return (
     <Layout>
       <Seo templateTitle='Sports' />
@@ -72,7 +72,7 @@ export default function Page() {
                           in season
                         </h1>
                       </div>
-                      <div className='flex flex-col content-between items-center justify-evenly rounded-t-lg bg-base-100  p-5'>
+                      <div className='flex flex-col content-between items-center justify-evenly space-y-5 rounded-t-lg bg-base-100 p-5'>
                         <div className='wrap-no m-2 flex w-full items-center justify-around border-b pb-3 font-bold'>
                           <div>
                             <p>Activity</p>
@@ -85,23 +85,24 @@ export default function Page() {
                           </div>
                         </div>
                         {sports?.data?.map((event, index) => {
-                          if (curDate  > event.registration_end ) {
+                          if (curDate > event.registration_end) {
                             //if registration is closed
                             return (
                               <div
-                                className='bg relative flex w-full content-center items-center justify-between'
+                                className='relative flex w-full content-center items-center justify-between space-x-3 text-center'
                                 key={index}
                               >
-                                <div className='align-center relative flex content-center items-center space-x-4'>
+                                <div className='align-center align-center ... flex max-h-full flex-wrap content-center items-center items-center justify-center  space-x-2'>
                                   <Image
                                     width={100}
                                     height={100}
                                     alt='img'
-                                    className='w-20 rounded-md bg-white p-2'
+                                    className=' shrink rounded-md bg-white p-2'
                                     src={'svgsports/' + event.icon_url + '.svg'}
                                   />
                                   <p>{event.friendly_name}</p>
                                 </div>
+
                                 <div>{event.division}</div>
                                 <div>
                                   <span>
@@ -122,6 +123,7 @@ export default function Page() {
                         })}
                       </div>
                     </div>
+
                     <div className='overflow-hidden rounded-t-lg bg-primary shadow-lg '>
                       <div>
                         <h1 className='p-2 font-semibold text-neutral'>
@@ -141,30 +143,97 @@ export default function Page() {
                           </div>
                         </div>
                         {sports?.data?.map((event, index) => {
-                          if (curDate  < event.registration_end) {
+                          if (curDate < event.registration_end) {
+                            //if registration is still open
+                            return (
+                              <Link
+                                href={`teams/${event.id}`}
+                                className='bg relative flex w-full content-center items-center justify-between  text-center'
+                                key={index}
+                              >
+                                <div className='align-center align-center ... flex max-h-full flex-wrap content-center items-center items-center justify-center  space-x-2'>
+                                  <Image
+                                    width={100}
+                                    height={100}
+                                    alt='img'
+                                    className='w-20 rounded-md bg-white p-2'
+                                    src={'svgsports/' + event.icon_url + '.svg'}
+                                  />
+                                  <div>
+                                    <p className=''>{event.friendly_name}</p>
+                                  </div>
+                                </div>
+
+                                <div>{event.division}</div>
+
+                                <div>
+                                  <span>
+                                    {DateTime.fromISO(
+                                      event.registration_start
+                                    ).toLocaleString(DateTime.DATE_MED)}
+                                  </span>
+                                  <span> to </span>
+                                  <span>
+                                    {DateTime.fromISO(
+                                      event.registration_end
+                                    ).toLocaleString(DateTime.DATE_MED)}
+                                  </span>
+                                </div>
+                              </Link>
+                            );
+                          }
+                        })}
+                      </div>
+                    </div>
+
+                    <div className='overflow-hidden rounded-t-lg bg-primary shadow-lg '>
+                      <div>
+                        <h1 className='p-2 font-semibold text-neutral'>
+                          Coming Soon
+                        </h1>
+                      </div>
+                      <div className='flex flex-col content-between items-center justify-evenly space-y-5 rounded-t-lg bg-base-100 p-5'>
+                        <div className='wrap-no m-2 flex w-full items-center justify-around border-b pb-3 font-bold'>
+                          <div>
+                            <p>Activity</p>
+                          </div>
+                          <div>
+                            <p>Division</p>
+                          </div>
+                          <div>
+                            <p>Registration</p>
+                          </div>
+                        </div>
+                        {sports?.data?.map((event, index) => {
+                          if (event.time_start && event.time_start < curDate) {
                             //if registration is still open
                             return (
                               <div
                                 className='bg relative flex w-full content-center items-center justify-between'
                                 key={index}
                               >
-                                <Link
-                                  href={`/teams/${event.id}`}
-                                >
-                                  <div className='align-center relative flex content-center items-center space-x-4'>
-                                    <Image
-                                      width={100}
-                                      height={100}
-                                      alt='img'
-                                      className='w-20 rounded-md bg-white p-2'
-                                      src={
-                                        'svgsports/' + event.icon_url + '.svg'
-                                      }
-                                    />
-                                    <p>{event.friendly_name}</p>
-                                  </div>{' '}
-                                </Link>{' '}
+                                <div className='align-center relative flex content-center items-center space-x-4'>
+                                  <Image
+                                    width={100}
+                                    height={100}
+                                    alt='img'
+                                    className='w-20 rounded-md bg-white p-2'
+                                    src={'svgsports/' + event.icon_url + '.svg'}
+                                  />
+                                  <p>{event.friendly_name}</p>
+                                </div>{' '}
                                 <div>{event.division}</div>
+                                <div>
+                                  <span>
+                                    {event.time_start ? (
+                                      DateTime.fromISO(
+                                        event.time_start
+                                      ).toLocaleString(DateTime.DATE_MED)
+                                    ) : (
+                                      <>TBD</>
+                                    )}
+                                  </span>
+                                </div>
                                 <div>
                                   <span>
                                     {DateTime.fromISO(
@@ -200,7 +269,6 @@ const Adminform = () => {
 
   const {
     register,
-    //watch,
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>();
@@ -241,7 +309,6 @@ const Adminform = () => {
         <h1 className='h1'>Add event</h1>
         <form className='form-control mt-6 md:w-128' onSubmit={onSubmit}>
           <div>
-
             <div>
               <h4 className='h4'>Event Name</h4>
             </div>
@@ -343,28 +410,32 @@ const Adminform = () => {
             <div className='mt-5'>
               <h4 className='h4'>Registration Date</h4>
             </div>
-            <div className='no-wrap border-bt flex'>
-              <label className='label' htmlFor='registrationStart'>
-                Registration opens
-              </label>
-              <input
-                type='date'
-                id='registrationStart'
-                {...register('registrationStart', {
-                  required: 'You must enter a start date',
-                })}
-              />
+            <div className='no-wrap border-bt flex justify-between'>
+              <div className='flex flex-col'>
+                <label className='label' htmlFor='registrationStart'>
+                  Registration opens
+                </label>
+                <input
+                  type='datetime-local'
+                  id='registrationStart'
+                  {...register('registrationStart', {
+                    required: 'You must enter a start date',
+                  })}
+                />
+              </div>
 
-              <label className='label' htmlFor='registrationEnd'>
-                Registration ends
-              </label>
-              <input
-                type='date'
-                id='registrationEnd'
-                {...register('registrationEnd', {
-                  required: 'You must enter an end date',
-                })}
-              />
+              <div className='flex flex-col'>
+                <label className='label' htmlFor='registrationEnd'>
+                  Registration ends
+                </label>
+                <input
+                  type='datetime-local'
+                  id='registrationEnd'
+                  {...register('registrationEnd', {
+                    required: 'You must enter an end date',
+                  })}
+                />
+              </div>
             </div>
           </div>
 
@@ -372,24 +443,57 @@ const Adminform = () => {
             <div className='mt-5'>
               <h4 className='h4'>Preseason</h4>
             </div>
-            <div className='no-wrap border-bt flex'>
-              <label className='label' htmlFor='preseasonStart'>
-                Registration opens
-              </label>
-              <input
-                type='date'
-                id='preseasonStart'
-                {...register('preseasonStart')}
-              />
+            <div className='no-wrap border-bt flex justify-between'>
+              <div className='flex flex-col'>
+                <label className='label' htmlFor='preseasonStart'>
+                  Registration opens
+                </label>
+                <input
+                  type='datetime-local'
+                  id='preseasonStart'
+                  {...register('preseasonStart')}
+                />
+              </div>
 
-              <label className='label' htmlFor='preseasonEnd'>
-                Registration ends
-              </label>
-              <input
-                type='date'
-                id='preseasonEnd'
-                {...register('preseasonEnd')}
-              />
+              <div className='flex flex-col'>
+                <label className='label' htmlFor='preseasonEnd'>
+                  Registration ends
+                </label>
+                <input
+                  type='datetime-local'
+                  id='preseasonEnd'
+                  {...register('preseasonEnd')}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className=' '>
+            <div className='mt-5'>
+              <h4 className='h4'>Events starts on</h4>
+            </div>
+            <div className='no-wrap border-bt flex justify-between'>
+              <div className='flex flex-col'>
+                <label className='label' htmlFor='timeStart'>
+                  Opening Day
+                </label>
+                <input
+                  type='datetime-local'
+                  id='timeStart'
+                  {...register('timeStart')}
+                />
+              </div>
+
+              <div className='flex flex-col'>
+                <label className='label' htmlFor='timeEnd'>
+                  Last day
+                </label>
+                <input
+                  type='datetime-local'
+                  id='timeEnd'
+                  {...register('timeEnd')}
+                />
+              </div>
             </div>
           </div>
 
@@ -454,7 +558,8 @@ const Adminform = () => {
                 placeholder='4'
                 id='maxTeams'
                 {...register('maxTeams', {
-                  required: 'You must enter the maximum number of teams allowed',
+                  required:
+                    'You must enter the maximum number of teams allowed',
                 })}
               />
               <label htmlFor='maxTeams' className='label'>
