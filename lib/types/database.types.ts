@@ -223,24 +223,24 @@ export interface Database {
           created_at: string;
           event_id: string;
           friendly_name: string;
-          icon_url: string | null;
           id: string;
+          team_logo_url: string | null;
         };
         Insert: {
           captain_id?: string;
           created_at?: string;
           event_id: string;
           friendly_name: string;
-          icon_url?: string | null;
           id?: string;
+          team_logo_url?: string | null;
         };
         Update: {
           captain_id?: string;
           created_at?: string;
           event_id?: string;
           friendly_name?: string;
-          icon_url?: string | null;
           id?: string;
+          team_logo_url?: string | null;
         };
       };
       user_metadata: {
@@ -386,9 +386,25 @@ export interface Database {
           id?: string | null;
         };
       };
+      team_memberships_friendly: {
+        Row: {
+          captain_id: string | null;
+          event_id: string | null;
+          first_name: string | null;
+          last_name: string | null;
+          pfp_url: string | null;
+          team_friendly_name: string | null;
+          team_id: string | null;
+          team_logo_url: string | null;
+          user_id: string | null;
+        };
+      };
     };
     Functions: {
-      [_ in never]: never;
+      users_without_team: {
+        Args: { e_id: string };
+        Returns: unknown;
+      };
     };
     Enums: {
       [_ in never]: never;
