@@ -108,13 +108,19 @@ export default function Page() {
                                   <span>
                                     {DateTime.fromISO(
                                       event.registration_start
-                                    ).toLocaleString(DateTime.DATE_MED)}
+                                    ).toLocaleString({
+                                      month: 'long',
+                                      day: 'numeric',
+                                    })}
                                   </span>
                                   <span> to </span>
                                   <span>
                                     {DateTime.fromISO(
                                       event.registration_end
-                                    ).toLocaleString(DateTime.DATE_MED)}
+                                    ).toLocaleString({
+                                      month: 'long',
+                                      day: 'numeric',
+                                    })}
                                   </span>
                                 </div>
                               </div>
@@ -148,7 +154,7 @@ export default function Page() {
                             return (
                               <Link
                                 href={`teams/${event.id}`}
-                                className='bg relative flex w-full content-center items-center justify-between  text-center'
+                                className='bg hover:scale-101 index-10 relative flex w-full content-center items-center justify-between  space-x-4 text-center transition duration-500 hover:shadow-lg '
                                 key={index}
                               >
                                 <div className='align-center align-center ... flex max-h-full flex-wrap content-center items-center items-center justify-center  space-x-2'>
@@ -156,7 +162,7 @@ export default function Page() {
                                     width={100}
                                     height={100}
                                     alt='img'
-                                    className='w-20 rounded-md bg-white p-2'
+                                    className='w-15 rounded-md bg-white p-2'
                                     src={'svgsports/' + event.icon_url + '.svg'}
                                   />
                                   <div>
@@ -170,13 +176,19 @@ export default function Page() {
                                   <span>
                                     {DateTime.fromISO(
                                       event.registration_start
-                                    ).toLocaleString(DateTime.DATE_MED)}
+                                    ).toLocaleString({
+                                      month: 'long',
+                                      day: 'numeric',
+                                    })}
                                   </span>
                                   <span> to </span>
                                   <span>
                                     {DateTime.fromISO(
                                       event.registration_end
-                                    ).toLocaleString(DateTime.DATE_MED)}
+                                    ).toLocaleString({
+                                      month: 'long',
+                                      day: 'numeric',
+                                    })}
                                   </span>
                                 </div>
                               </Link>
@@ -228,7 +240,10 @@ export default function Page() {
                                     {event.time_start ? (
                                       DateTime.fromISO(
                                         event.time_start
-                                      ).toLocaleString(DateTime.DATE_MED)
+                                      ).toLocaleString({
+                                        month: 'long',
+                                        day: 'numeric',
+                                      })
                                     ) : (
                                       <>TBD</>
                                     )}
@@ -238,13 +253,19 @@ export default function Page() {
                                   <span>
                                     {DateTime.fromISO(
                                       event.registration_start
-                                    ).toLocaleString(DateTime.DATE_MED)}
+                                    ).toLocaleString({
+                                      month: 'long',
+                                      day: 'numeric',
+                                    })}
                                   </span>
                                   <span> to </span>
                                   <span>
                                     {DateTime.fromISO(
                                       event.registration_end
-                                    ).toLocaleString(DateTime.DATE_MED)}
+                                    ).toLocaleString({
+                                      month: 'long',
+                                      day: 'numeric',
+                                    })}
                                   </span>
                                 </div>
                               </div>
@@ -410,8 +431,8 @@ const Adminform = () => {
             <div className='mt-5'>
               <h4 className='h4'>Registration Date</h4>
             </div>
-            <div className='no-wrap border-bt flex justify-between'>
-              <div className='flex flex-col'>
+            <div className='border-bt flex flex-wrap justify-between p-2'>
+              <div className='flex flex-col flex-wrap'>
                 <label className='label' htmlFor='registrationStart'>
                   Registration opens
                 </label>
@@ -424,7 +445,7 @@ const Adminform = () => {
                 />
               </div>
 
-              <div className='flex flex-col'>
+              <div className=''>
                 <label className='label' htmlFor='registrationEnd'>
                   Registration ends
                 </label>
@@ -443,7 +464,7 @@ const Adminform = () => {
             <div className='mt-5'>
               <h4 className='h4'>Preseason</h4>
             </div>
-            <div className='no-wrap border-bt flex justify-between'>
+            <div className='border-bt flex flex-wrap justify-between p-2'>
               <div className='flex flex-col'>
                 <label className='label' htmlFor='preseasonStart'>
                   Registration opens
@@ -472,7 +493,7 @@ const Adminform = () => {
             <div className='mt-5'>
               <h4 className='h4'>Events starts on</h4>
             </div>
-            <div className='no-wrap border-bt flex justify-between'>
+            <div className='border-bt flex flex-wrap justify-between p-2'>
               <div className='flex flex-col'>
                 <label className='label' htmlFor='timeStart'>
                   Opening Day
