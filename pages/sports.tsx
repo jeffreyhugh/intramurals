@@ -224,16 +224,20 @@ export default function Page() {
                                 className='bg relative flex w-full content-center items-center justify-between'
                                 key={index}
                               >
-                                <div className='align-center relative flex content-center items-center space-x-4'>
-                                  <Image
-                                    width={100}
-                                    height={100}
-                                    alt='img'
-                                    className='w-20 rounded-md bg-white p-2'
-                                    src={'svgsports/' + event.icon_url + '.svg'}
-                                  />
-                                  <p>{event.friendly_name}</p>
-                                </div>{' '}
+                                <Link href={`/teams/${event.id}`}>
+                                  <div className='align-center relative flex content-center items-center space-x-4'>
+                                    <Image
+                                      width={100}
+                                      height={100}
+                                      alt='img'
+                                      className='w-20 rounded-md bg-white p-2'
+                                      src={
+                                        'svgsports/' + event.icon_url + '.svg'
+                                      }
+                                    />
+                                    <p>{event.friendly_name}</p>
+                                  </div>{' '}
+                                </Link>{' '}
                                 <div>{event.division}</div>
                                 <div>
                                   <span>

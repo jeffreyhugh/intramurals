@@ -30,6 +30,8 @@ export interface Database {
         Row: {
           created_at: string;
           default_location_id: string | null;
+          division: string | null;
+          event_name: string | null;
           friendly_name: string;
           higher_is_better: boolean;
           icon_url: string | null;
@@ -44,11 +46,12 @@ export interface Database {
           registration_start: string;
           time_end: string | null;
           time_start: string | null;
-          division: string | null;
         };
         Insert: {
           created_at?: string;
           default_location_id?: string | null;
+          division?: string | null;
+          event_name?: string | null;
           friendly_name: string;
           higher_is_better?: boolean;
           icon_url?: string | null;
@@ -63,11 +66,12 @@ export interface Database {
           registration_start: string;
           time_end?: string | null;
           time_start?: string | null;
-          division: string | null;
         };
         Update: {
           created_at?: string;
           default_location_id?: string | null;
+          division?: string | null;
+          event_name?: string | null;
           friendly_name?: string;
           higher_is_better?: boolean;
           icon_url?: string | null;
@@ -82,7 +86,6 @@ export interface Database {
           registration_start?: string;
           time_end?: string | null;
           time_start?: string | null;
-          division: string | null;
         };
       };
       games: {
@@ -220,24 +223,24 @@ export interface Database {
           created_at: string;
           event_id: string;
           friendly_name: string;
-          team_logo_url: string | null;
           id: string;
+          team_logo_url: string | null;
         };
         Insert: {
           captain_id?: string;
           created_at?: string;
           event_id: string;
           friendly_name: string;
-          team_logo_url?: string | null;
           id?: string;
+          team_logo_url?: string | null;
         };
         Update: {
           captain_id?: string;
           created_at?: string;
           event_id?: string;
           friendly_name?: string;
-          team_logo_url?: string | null;
           id?: string;
+          team_logo_url?: string | null;
         };
       };
       user_metadata: {
@@ -246,28 +249,61 @@ export interface Database {
           first_name: string;
           id: string;
           last_name: string | null;
+          loses: number | null;
           pfp_url: string | null;
           student_id: string;
+          wins: number | null;
         };
         Insert: {
           created_at?: string;
           first_name: string;
           id: string;
           last_name?: string | null;
+          loses?: number | null;
           pfp_url?: string | null;
           student_id: string;
+          wins?: number | null;
         };
         Update: {
           created_at?: string;
           first_name?: string;
           id?: string;
           last_name?: string | null;
+          loses?: number | null;
           pfp_url?: string | null;
           student_id?: string;
+          wins?: number | null;
         };
       };
     };
     Views: {
+      groupchat_data_friendly: {
+        Row: {
+          content: string | null;
+          email: string | null;
+          first_name: string | null;
+          groupchat_id: string | null;
+          last_name: string | null;
+          member_since: string | null;
+          message_time: string | null;
+          pfp_url: string | null;
+          student_id: string | null;
+          to_group_id: string | null;
+          user_id: string | null;
+        };
+      };
+      groupchat_memberships_friendly: {
+        Row: {
+          email: string | null;
+          first_name: string | null;
+          groupchat_id: string | null;
+          last_name: string | null;
+          member_since: string | null;
+          pfp_url: string | null;
+          student_id: string | null;
+          user_id: string | null;
+        };
+      };
       my_events: {
         Row: {
           created_at: string | null;
@@ -350,9 +386,25 @@ export interface Database {
           id?: string | null;
         };
       };
+      team_memberships_friendly: {
+        Row: {
+          captain_id: string | null;
+          event_id: string | null;
+          first_name: string | null;
+          last_name: string | null;
+          pfp_url: string | null;
+          team_friendly_name: string | null;
+          team_id: string | null;
+          team_logo_url: string | null;
+          user_id: string | null;
+        };
+      };
     };
     Functions: {
-      [_ in never]: never;
+      users_without_team: {
+        Args: { e_id: string };
+        Returns: unknown;
+      };
     };
     Enums: {
       [_ in never]: never;
