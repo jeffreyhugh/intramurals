@@ -1,11 +1,9 @@
-import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
+import Image from 'next/image';
 import * as React from 'react';
-import { useState } from 'react';
 import { PieChart } from 'react-minimal-pie-chart';
 
 import { useMetadata } from '@/lib/hooks/useMetadata';
 import { requireAuth } from '@/lib/requireAuth';
-import { Database } from '@/lib/types/database.types';
 
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import Layout from '@/components/layout/Layout';
@@ -13,15 +11,6 @@ import Seo from '@/components/Seo';
 
 export default function Page() {
   // TODO what data do we need here?
-
-  const supabase = useSupabaseClient<Database>();
-  const user = useUser();
-  const [image, setImage] = useState(null);
-
-  const handleImageChange = (e) => {
-    const selectedImage = e.target.files[0];
-    setImage(selectedImage);
-  };
 
   const data = useMetadata();
   const wins = data?.data?.wins || 0;
@@ -61,7 +50,9 @@ export default function Page() {
                     onChange={handleImageChange}
                   />
 
-                  <img
+                 <Image
+                    width={100}
+                    height={100}
                     src='/images/stock_Image.png'
                     alt='uploaded'
                     className='ml-3 mt-1 mb-1 w-full'
