@@ -43,13 +43,7 @@ export default function Page() {
               <div className='m-5 flex h-28 w-28 justify-center rounded-full bg-primary'>
                 <div className='h-18 w-18 m-2 flex justify-center overflow-hidden  rounded-full bg-white'>
                   <label htmlFor='image-upload'> Upload Image: </label>
-                  <input
-                    type='file'
-                    accept='image/*'
-                    id='image-upload'
-                    onChange={handleImageChange}
-                  />
-
+                  
                  <Image
                     width={100}
                     height={100}
