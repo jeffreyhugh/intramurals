@@ -24,7 +24,6 @@ type FileObject = {
 
 export default function Page() {
   const teams = useMyTeams();
-  const router = useRouter();
   const {user} = useUser();
   const { mutate } = useSWRConfig()
   
