@@ -1,9 +1,7 @@
 import {
-  useSessionContext,
   useSupabaseClient,
 } from '@supabase/auth-helpers-react';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
 import * as React from 'react';
 import toast from 'react-hot-toast';
 
@@ -17,6 +15,7 @@ import Layout from '@/components/layout/Layout';
 import Seo from '@/components/Seo';
 import Skeleton from '@/components/Skeleton';
 import { SomethingWentWrong } from '@/components/SomethingWentWrong';
+import { useSWRConfig } from 'swr';
 
 type FileObject = {
   id: number;
@@ -24,10 +23,11 @@ type FileObject = {
 };
 
 export default function Page() {
-  const { session } = useSessionContext();
   const teams = useMyTeams();
   const router = useRouter();
-  //const myEvents = useMyEvents();
+  const {user} = useUser();
+  const { mutate } = useSWRConfig()
+  
   const supabase = useSupabaseClient<Database>();
   const userMetaData = useMetadata();
 
@@ -73,7 +73,7 @@ export default function Page() {
         toast.error(error_on_update_url.message);
       } else {
         toast.success('team photo updated!');
-        router.push('/teams'); //or refresh-> const teams = useMyTeams();
+        mutate('myTeams');
         setFileObject({ id: -1, file: null });
       }
     }
@@ -122,7 +122,7 @@ export default function Page() {
                           </h1>
                         </div>
                         <div className='flex flex-col content-between items-center justify-evenly rounded-t-lg border  border-neutral-300 bg-base-100 p-5 ring-offset-0'>
-                          {team.captain_id == session?.user?.id ? (
+                          {team.captain_id == user.id ? (
                             <div>You are the team captain</div>
                           ) : (
                             <div>user is not captain</div>
