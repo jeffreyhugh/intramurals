@@ -24,7 +24,7 @@ type FileObject = {
 
 export default function Page() {
   const teams = useMyTeams();
-  const {user} = useUser();
+  const user = useUser();
   const { mutate } = useSWRConfig()
   
   const supabase = useSupabaseClient<Database>();
@@ -121,7 +121,7 @@ export default function Page() {
                           </h1>
                         </div>
                         <div className='flex flex-col content-between items-center justify-evenly rounded-t-lg border  border-neutral-300 bg-base-100 p-5 ring-offset-0'>
-                          {team.captain_id == user.id ? (
+                          {team.captain_id == user?.id ? (
                             <div>You are the team captain</div>
                           ) : (
                             <div>user is not captain</div>
