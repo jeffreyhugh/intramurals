@@ -64,7 +64,7 @@ export default function Page() {
               ) : (
                 <div className=''>
                   {/* temporary. For viewing purposes */}
-                  {isAdmin && <Adminform />}
+                  {isAdmin.data && <Adminform />}
                   <div className='space-between align-items flex flex-col justify-center space-y-12'>
                     <div className='overflow-hidden rounded-t-lg bg-primary shadow-lg'>
                       <div>
@@ -93,7 +93,7 @@ export default function Page() {
                                 className='relative flex w-full content-center items-center justify-between space-x-3 text-center'
                                 key={index}
                               >
-                                <div className='align-center align-center ... flex max-h-full flex-wrap content-center items-center items-center justify-center  space-x-2'>
+                                <div className='align-center align-center ... flex max-h-full flex-wrap content-center items-center justify-center  space-x-2'>
                                   <Image
                                     width={100}
                                     height={100}
@@ -158,7 +158,7 @@ export default function Page() {
                                 className='bg hover:scale-101 index-10 relative flex w-full content-center items-center justify-between  space-x-4 text-center transition duration-500 hover:shadow-lg '
                                 key={index}
                               >
-                                <div className='align-center align-center ... flex max-h-full flex-wrap content-center items-center items-center justify-center  space-x-2'>
+                                <div className='align-center align-center ... flex max-h-full flex-wrap content-center items-center justify-center  space-x-2'>
                                   <Image
                                     width={100}
                                     height={100}
