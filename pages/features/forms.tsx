@@ -253,7 +253,7 @@ export default function Page() {
                   </label>
                 </div>
 
-                <button className='btn btn-primary' type='submit'>
+                <button className='btn-primary btn' type='submit'>
                   Looks good
                 </button>
 
