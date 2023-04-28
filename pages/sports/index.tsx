@@ -66,12 +66,13 @@ export default function Page() {
                   {/* temporary. For viewing purposes */}
                   {isAdmin && <Adminform />}
                   <div className='space-between align-items flex flex-col justify-center space-y-12'>
-                    <div className=' rouoverflow-hidden rounded-t-lg bg-primary shadow-lg'>
+                    <div className='overflow-hidden rounded-t-lg bg-primary shadow-lg'>
                       <div>
                         <h1 className=' p-2 font-semibold text-neutral'>
                           in season
                         </h1>
                       </div>
+
                       <div className='flex flex-col content-between items-center justify-evenly space-y-5 rounded-t-lg bg-base-100 p-5'>
                         <div className='wrap-no m-2 flex w-full items-center justify-around border-b pb-3 font-bold'>
                           <div>
@@ -153,7 +154,7 @@ export default function Page() {
                             //if registration is still open
                             return (
                               <Link
-                                href={`teams/${event.id}`}
+                                href={`sports/${event.id}`}
                                 className='bg hover:scale-101 index-10 relative flex w-full content-center items-center justify-between  space-x-4 text-center transition duration-500 hover:shadow-lg '
                                 key={index}
                               >
@@ -224,7 +225,7 @@ export default function Page() {
                                 className='bg relative flex w-full content-center items-center justify-between'
                                 key={index}
                               >
-                                <Link href={`/teams/${event.id}`}>
+                                <Link href={`/sports/${event.id}`}>
                                   <div className='align-center relative flex content-center items-center space-x-4'>
                                     <Image
                                       width={100}
@@ -290,6 +291,108 @@ export default function Page() {
 }
 
 const Adminform = () => {
+  const ListOfIcons = [
+    'badminto',
+    'basketball',
+    'esports',
+    'footbal',
+    'golf',
+    'ping-pong',
+    'soccer',
+    'softball',
+    'squash',
+    'swimming',
+    'tennis',
+    'volleyball',
+  ];
+  const ListOfEvents = [
+    '3 Point Shootout',
+    '3-on-3 Basketball',
+    '4 on 4 Flag Football',
+    '4on4 CoRec Volleyball',
+    '4v4 Flag Football',
+    'All University Cup',
+    'Archery',
+    'Badminton',
+    'Badminton Singles Tournament',
+    'Bags/Cornhole Tourney',
+    'Basketball',
+    'Big Pink Volleyball',
+    'Bike Race',
+    'Board/Card Games Night',
+    'Bowling',
+    'Co-Rec Volleyball',
+    'CoRec Basketball',
+    'Cricket',
+    'Cross Country Race',
+    'Custom',
+    'Cycling Dodgeball',
+    'Esports',
+    'Esports Tournaments',
+    'Flag Football',
+    'Floor Hockey',
+    'Football',
+    'Glow Run',
+    'Golf',
+    'Golf',
+    'Golf 2 Person Scramble',
+    'Indoor Soccer',
+    'Indoor Soccer Tourney',
+    'KanJam/Spikeball Tourn',
+    'Kickball',
+    'Kickball Tournament',
+    'Late Night Climbing',
+    'Late Night Dodgeball',
+    'MUC Tournaments',
+    'NCAA Basketball',
+    "NCAA FB Bowl Pick 'Em",
+    'New Members',
+    'Open Softball Tourney',
+    'Outdoor Soccer',
+    'Paintball',
+    'Paper Airplane Competition',
+    'Pickleball',
+    'Ping-pong',
+    'Powerlifting Competition',
+    'PreSeason Basketball Jamboree',
+    'Racquetball Doubles',
+    'Racquetball Singles',
+    'Rave Night @ Welly Events',
+    'Rugby',
+    'Sand Volleyball',
+    'Skills Showcase',
+    'Soccer',
+    'Softball',
+    'Softball',
+    'Special Events',
+    'Special Olympics Unified Basketball',
+    'Special Olympics Unified Floor Hockey Spring Break 5k',
+    'Spring Break 5k Summer Softball',
+    'Squash',
+    'Swimming',
+    'Table Tennis Doubles',
+    'Table Tennis Singles',
+    'Tennis',
+    'Tennis',
+    'Training',
+    'Trap Shoot',
+    'Turkey Trot 5k',
+    'Ultimate Frisbee',
+    'Unified 3v3 Basketball',
+    'Unified Flag Football',
+    'Unified Kickball',
+    'Unified SO Floor Hockey',
+    'Unified Soccer',
+    'Unified Special Olympics',
+    'Unified Special Olympics Indoor Soccer',
+    'Video Games',
+    'Volleyball',
+    'Walleyball Tournament',
+    'Wiffle ball',
+    'Yard Games',
+    'Yard Games League',
+  ];
+
   const supabase = useSupabaseClient<Database>();
 
   const {
@@ -331,8 +434,9 @@ const Adminform = () => {
   return (
     <div className='align-center flex flex-col items-center justify-center'>
       <div className='min-h-c'>
-        <h1 className='h1'>Add event</h1>
+        <h1 className='h1'>Add Event</h1>
         <form className='form-control mt-6 md:w-128' onSubmit={onSubmit}>
+          {/* Pre set list of possible event names */}
           <div>
             <div>
               <h4 className='h4'>Event Name</h4>
@@ -340,18 +444,71 @@ const Adminform = () => {
             <label htmlFor='friendlyName' className='label'>
               <span className='label-text-alt'>Required</span>
             </label>
-            <input
-              type='text'
-              className='input-bordered input w-full'
-              placeholder='Co-rec volleybal'
+            <select
+              className='select-bordered select w-full'
+              placeholder=''
               id='friendlyName'
               {...register('friendlyName', {
                 required: 'You need to give your event a name',
               })}
-            />
+            >
+              {/* use a zero-width space to prevent the option from being re-chosen through the keyboard */}
+              {/* set value='' for the default, non-chosen option */}
+              <option value='' className='hidden'>
+                &#8203;Choose...
+              </option>
+              {ListOfEvents.map((item, index) => (
+                <option
+                  key={index}
+                  value={ListOfEvents[index]}
+                  label={ListOfEvents[index]}
+                />
+              ))}
+              <option value='custom' disabled>
+                Select an option that best fits your event...
+              </option>
+            </select>
             <label htmlFor='friendlyName' className='label'>
               <span className='label-text-alt text-error'>
                 {errors.friendlyName?.message}
+              </span>
+            </label>
+          </div>
+
+          <div>
+            <div>
+              <h4 className='h4'>Icon</h4>
+            </div>
+            <label htmlFor='iconUrl' className='label'>
+              <span className='label-text-alt'>Required</span>
+            </label>
+            <select
+              className='select-bordered select w-full'
+              placeholder=''
+              id='iconUrl'
+              {...register('iconUrl', {
+                required: 'You need to give your event a name',
+              })}
+            >
+              {/* use a zero-width space to prevent the option from being re-chosen through the keyboard */}
+              {/* set value='' for the default, non-chosen option */}
+              <option value='' className='hidden'>
+                &#8203;Choose...
+              </option>
+              {ListOfIcons.map((item, index) => (
+                <option
+                  key={index}
+                  value={ListOfIcons[index]}
+                  label={ListOfIcons[index]}
+                />
+              ))}
+              <option value='custom' disabled>
+                Select an option that best fits your event...
+              </option>
+            </select>
+            <label htmlFor='iconUrl' className='label'>
+              <span className='label-text-alt text-error'>
+                {errors.iconUrl?.message}
               </span>
             </label>
           </div>
@@ -383,49 +540,13 @@ const Adminform = () => {
               <option value='4 person scramble' label='4 person scramble' />
               <option value='unified' label='Unified' />
               <option value='singles' label='Singles' />
+              <option value='custom' disabled>
+                Select an option that best fits your event...
+              </option>
             </select>
             <label htmlFor='division' className='label'>
               <span className='label-text-alt text-error'>
                 {errors.division?.message}
-              </span>
-            </label>
-          </div>
-
-          {/* URL svg tag */}
-          <div>
-            <div>
-              <h4 className='h4'>Tag</h4>
-            </div>
-            <label htmlFor='iconUrl' className='label'>
-              <span className='label-text-alt'>Required</span>
-            </label>
-            <select
-              className='select-bordered select w-full'
-              placeholder=''
-              id='iconUrl'
-              {...register('iconUrl')}
-            >
-              {/* use a zero-width space to prevent the option from being re-chosen through the keyboard */}
-              {/* set value='' for the default, non-chosen option */}
-              <option value='' className='hidden'>
-                &#8203;Choose...
-              </option>
-              <option value='badminton' label='badminton' />
-              <option value='basketball' label='basketball' />
-              <option value='esports' label='esports' />
-              <option value='football' label='football' />
-              <option value='golf' label='golf' />
-              <option value='ping-pong' label='ping-pong' />
-              <option value='soccer' label='soccer' />
-              <option value='softball' label='softball' />
-              <option value='squash' label='squash' />
-              <option value='swimming' label='swimming' />
-              <option value='tennis' label='tennis' />
-              <option value='volleyball' label='volleyball' />
-            </select>
-            <label htmlFor='iconUrl' className='label'>
-              <span className='label-text-alt text-error'>
-                {errors.iconUrl?.message}
               </span>
             </label>
           </div>

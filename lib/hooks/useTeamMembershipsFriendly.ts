@@ -6,22 +6,22 @@ import useSWR from 'swr';
 
 import { Database } from '@/lib/types/database.types';
 
-export const useTeamMembershipsFriendly = (teamID: string) => {
+export const useTeamMembershipsFriendly = (teamIDs: string[]) => {
   const client = useSupabaseClient<Database>();
 
-  return useSWR(`teamMemberships-${teamID}`, () =>
-    teamMembershipsFriendlyFetcher(client, teamID)
+  return useSWR(`teamMemberships-${teamIDs.join()}`, () =>
+    teamMembershipsFriendlyFetcher(client, teamIDs)
   );
 };
 
 export const teamMembershipsFriendlyFetcher = async (
   client: SupabaseClient<Database, 'public'>,
-  teamID: string
+  teamIDs: string[]
 ) => {
   const { data, error } = await client
     .from('team_memberships_friendly')
     .select('*')
-    .eq('team_id', teamID);
+    .in('team_id', teamIDs);
 
   if (error) {
     throw error;

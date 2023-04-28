@@ -24,6 +24,7 @@ type FormValues = {
   friendly_name: string;
   agreed: boolean;
 };
+
 export default function Page() {
   const teams = useMyTeams();
   const router = useRouter();
@@ -80,16 +81,17 @@ export default function Page() {
         <section className='flex max-w-full flex-grow'>
           <div className='layout min-h-c'>
             <Breadcrumbs />
-            <h1 className='mt-6 text-4xl font-bold'>Teams</h1>
+            <h1 className='mt-6 text-4xl font-bold'>Event Details</h1>
             <div className='mt-6 w-full'>
               {teams.error ? (
                 <SomethingWentWrong />
-              ) : teams.isLoading ? (
+              ) : (teams.isLoading || !teams?.data) &&
+                (eventDetails.isLoading || !eventDetails?.data) ? (
                 <Skeleton className='h-48 w-full' />
               ) : (
                 <>
                   <div>
-                    <div className=' rouoverflow-hidden rounded-t-lg bg-primary shadow-lg'>
+                    <div className='overflow-hidden rounded-t-lg bg-primary shadow-lg'>
                       <div>
                         <h1 className='p-2 font-semibold text-neutral'>
                           Selected
@@ -121,120 +123,110 @@ export default function Page() {
                         </div>
                       </div>
                     </div>
-                    {/* <div className='sm:block hidden'>
-                            <div className=''>
-                                <h2 className='h2'>Details</h2>
-                                <div className='fle'>
-                                </div>
-                            </div>    
-                        </div> */}
+
                     <div className=''>
-                      <div className=''>
-                        <h2 className='h2 mt-3'>Details</h2>
-                        <div className='align-center justifty-center flex flex-col items-center space-y-2 text-center'>
+                      <h2 className='h2 mt-3'>Details</h2>
+                      <div className='align-center justifty-center flex flex-col items-center space-y-2 text-center'>
+                        <h4 className='h4 '>
+                          Event:
+                          <span className='p-5'>
+                            {eventDetails?.data?.friendly_name}
+                          </span>
+                        </h4>
+
+                        <div>
+                          <h4 className='h4 '>
+                            Last day to register:
+                            <span className='p-5'>
+                              {DateTime.fromISO(
+                                eventDetails?.data?.registration_end as string
+                              ).toLocaleString(DateTime.DATETIME_FULL)}
+                            </span>
+                          </h4>
+                        </div>
+                        <div>
+                          <h4 className='h4 '>
+                            Maximum team sizes:
+                            <span className='p-5'>
+                              {eventDetails?.data?.max_team_size}
+                            </span>
+                          </h4>
+                        </div>
+                        <div>
+                          <h4 className='h4 '>
+                            Minimum team sizes:
+                            <span className='p-5'>
+                              {eventDetails?.data?.min_team_size}
+                            </span>
+                          </h4>
+                        </div>
+                        <div>
+                          <h4 className='h4 '>
+                            Division:
+                            <span className='p-5'>
+                              {eventDetails?.data?.division}
+                            </span>
+                          </h4>
+                        </div>
+
+                        {eventDetails?.data?.time_start && (
                           <div>
                             <h4 className='h4 '>
-                              Event:
-                              <span className='p-5'>
-                                {eventDetails?.data?.friendly_name}
-                              </span>
-                            </h4>
-                          </div>
-                          <div>
-                            <h4 className='h4 '>
-                              Last day to register:
+                              Season begins on:
                               <span className='p-5'>
                                 {DateTime.fromISO(
-                                  eventDetails?.data?.registration_end as string
-                                ).toLocaleString(DateTime.DATETIME_FULL)}
+                                  eventDetails?.data?.time_start as string
+                                ).toFormat('LLL dd')}
                               </span>
                             </h4>
                           </div>
+                        )}
+                        {eventDetails?.data?.time_end && (
                           <div>
                             <h4 className='h4 '>
-                              Maximum team sizes:
+                              Season ends:
                               <span className='p-5'>
-                                {eventDetails?.data?.max_team_size}
+                                {DateTime.fromISO(
+                                  eventDetails?.data?.time_end as string
+                                ).toFormat('LLL dd')}
                               </span>
                             </h4>
                           </div>
+                        )}
+                        {eventDetails?.data?.meets_on && (
                           <div>
                             <h4 className='h4 '>
-                              Minimum team sizes:
+                              Meets on:
                               <span className='p-5'>
-                                {eventDetails?.data?.min_team_size}
+                                {eventDetails?.data?.meets_on}
                               </span>
                             </h4>
                           </div>
+                        )}
+                        {eventDetails?.data?.preseason_start && (
                           <div>
                             <h4 className='h4 '>
-                              Division:
+                              Preaseason starts:
                               <span className='p-5'>
-                                {eventDetails?.data?.division}
+                                {DateTime.fromISO(
+                                  eventDetails?.data?.preseason_start as string
+                                ).toFormat('LLL dd')}
                               </span>
                             </h4>
                           </div>
-
-                          {eventDetails?.data?.time_start && (
-                            <div>
-                              <h4 className='h4 '>
-                                Season begins on:
-                                <span className='p-5'>
-                                  {DateTime.fromISO(
-                                    eventDetails?.data?.time_start as string
-                                  ).toFormat('LLL dd')}
-                                </span>
-                              </h4>
-                            </div>
-                          )}
-                          {eventDetails?.data?.time_end && (
-                            <div>
-                              <h4 className='h4 '>
-                                Season ends:
-                                <span className='p-5'>
-                                  {DateTime.fromISO(
-                                    eventDetails?.data?.time_end as string
-                                  ).toFormat('LLL dd')}
-                                </span>
-                              </h4>
-                            </div>
-                          )}
-                          {eventDetails?.data?.meets_on && (
-                            <div>
-                              <h4 className='h4 '>
-                                Meets on:
-                                <span className='p-5'>
-                                  {eventDetails?.data?.meets_on}
-                                </span>
-                              </h4>
-                            </div>
-                          )}
-                          {eventDetails?.data?.preseason_start && (
-                            <div>
-                              <h4 className='h4 '>
-                                Preaseason starts:
-                                <span className='p-5'>
-                                  {DateTime.fromISO(
-                                    eventDetails?.data
-                                      ?.preseason_start as string
-                                  ).toFormat('LLL dd')}
-                                </span>
-                              </h4>
-                            </div>
-                          )}
-                          {eventDetails?.data?.preseason_end && (
-                            <div>
-                              <h4 className='h4 '>
-                                Preseason ends:
-                                <span className='p-5'>
-                                  {DateTime.fromISO(
-                                    eventDetails?.data?.preseason_end as string
-                                  ).toFormat('LLL dd')}
-                                </span>
-                              </h4>
-                            </div>
-                          )}
-                        </div>
+                        )}
+                        {eventDetails?.data?.preseason_end && (
+                          <div>
+                            <h4 className='h4 '>
+                              Preseason ends:
+                              <span className='p-5'>
+                                {DateTime.fromISO(
+                                  eventDetails?.data?.preseason_end as string
+                                ).toFormat('LLL dd')}
+                              </span>
+                            </h4>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
