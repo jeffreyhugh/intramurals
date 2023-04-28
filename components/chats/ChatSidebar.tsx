@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
+import { TbPlus } from 'react-icons/tb';
 
 import clsxm from '@/lib/clsxm';
 import { useGroupchats } from '@/lib/hooks/useGroupchats';
@@ -26,18 +27,24 @@ export const ChatSidebar = () => {
       ) : groupchats.isLoading || !groupchats.data ? (
         <div>Loading...</div>
       ) : (
-        groupchats.data.map((groupchat) => (
-          <Link
-            key={groupchat.id}
-            href={`/chat/${groupchat.id}`}
-            className={clsxm(
-              'btn-ghost btn',
-              groupchat.id === chatID && 'btn-active'
-            )}
-          >
-            {groupchat.friendly_name}
+        <>
+          <Link className='btn-primary btn' href='/chat/new'>
+            <TbPlus className='mr-2 ' />
+            New
           </Link>
-        ))
+          {groupchats.data.map((groupchat) => (
+            <Link
+              key={groupchat.id}
+              href={`/chat/${groupchat.id}`}
+              className={clsxm(
+                'btn-ghost btn',
+                groupchat.id === chatID && 'btn-active'
+              )}
+            >
+              {groupchat.friendly_name}
+            </Link>
+          ))}
+        </>
       )}
     </div>
   );
