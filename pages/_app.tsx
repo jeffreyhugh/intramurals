@@ -105,7 +105,7 @@ function MyApp({
                     {message}
                     {t.type !== 'loading' && (
                       <button
-                        className='btn btn-ghost btn-xs btn-circle m-0 p-0'
+                        className='btn-ghost btn-xs btn-circle btn m-0 p-0'
                         onClick={() => toast.dismiss(t.id)}
                       >
                         <TbX />

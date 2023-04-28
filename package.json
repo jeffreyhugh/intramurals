@@ -26,7 +26,7 @@
     "@mdx-js/react": "^2.2.1",
     "@next/bundle-analyzer": "^13.1.6",
     "@next/mdx": "^13.1.6",
-    "@supabase/auth-helpers-nextjs": "^0.5.4",
+    "@supabase/auth-helpers-nextjs": "^0.6.0",
     "@supabase/auth-helpers-react": "^0.3.1",
     "@supabase/supabase-js": "^2.10.0",
     "@types/react-syntax-highlighter": "^15.5.6",

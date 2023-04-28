@@ -98,7 +98,7 @@ export default function Header() {
   return (
     <div className='navbar sticky top-0 z-50 border-b border-b-neutral/10 bg-white/10 p-4 backdrop-blur-md'>
       <div className='flex w-full justify-between'>
-        <div className='dropdown-hover dropdown block md:hidden'>
+        <div className='dropdown dropdown-hover block md:hidden'>
           <label tabIndex={0} className='btn-ghost btn'>
             <TbMenu2 className='h-5 w-5' />
           </label>
@@ -118,7 +118,7 @@ export default function Header() {
             ))}
           </ul>
         </div>
-        <Link className='btn btn-ghost normal-case' href='/'>
+        <Link className='btn-ghost btn normal-case' href='/'>
           <SmallLogo />
           <div className='divider divider-horizontal hidden md:flex' />
           <span className='hidden md:inline'>Intramurals.net</span>

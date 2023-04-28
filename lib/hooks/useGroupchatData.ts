@@ -14,7 +14,8 @@ export const useGroupchatData = (groupchatID: string) => {
 
   return useSWR(
     groupchatID === '' ? null : `groupchatData-${groupchatID}`,
-    () => groupchatDataFetcher(client, groupchatID)
+    () => groupchatDataFetcher(client, groupchatID),
+    { refreshInterval: 2000 }
   );
 };
 
