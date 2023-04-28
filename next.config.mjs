@@ -24,11 +24,9 @@ export default withMDX({
   pageExtensions: ['js', 'ts', 'jsx', 'tsx', 'md', 'mdx'],
 
   // Uncoment to add domain whitelist
-  // images: {
-  //   domains: [
-  //     'res.cloudinary.com',
-  //   ],
-  // },
+  images: {
+    domains: ['res.cloudinary.com', 'iahuzudvedhpvowlsyxy.supabase.co'],
+  },
 
   // SVGR
   webpack(config) {

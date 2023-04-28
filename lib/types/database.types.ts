@@ -252,6 +252,7 @@ export interface Database {
           loses: number | null;
           pfp_url: string | null;
           student_id: string;
+          ties: number | null;
           wins: number | null;
         };
         Insert: {
@@ -262,6 +263,7 @@ export interface Database {
           loses?: number | null;
           pfp_url?: string | null;
           student_id: string;
+          ties?: number | null;
           wins?: number | null;
         };
         Update: {
@@ -272,6 +274,7 @@ export interface Database {
           loses?: number | null;
           pfp_url?: string | null;
           student_id?: string;
+          ties?: number | null;
           wins?: number | null;
         };
       };
@@ -358,6 +361,41 @@ export interface Database {
           registration_start?: string | null;
           time_end?: string | null;
           time_start?: string | null;
+        };
+      };
+      my_games: {
+        Row: {
+          away_score: number | null;
+          away_team_id: string | null;
+          created_at: string | null;
+          event_id: string | null;
+          home_score: number | null;
+          home_team_id: string | null;
+          id: string | null;
+          override_location_id: string | null;
+          played_at: string | null;
+        };
+        Insert: {
+          away_score?: number | null;
+          away_team_id?: string | null;
+          created_at?: string | null;
+          event_id?: string | null;
+          home_score?: number | null;
+          home_team_id?: string | null;
+          id?: string | null;
+          override_location_id?: string | null;
+          played_at?: string | null;
+        };
+        Update: {
+          away_score?: number | null;
+          away_team_id?: string | null;
+          created_at?: string | null;
+          event_id?: string | null;
+          home_score?: number | null;
+          home_team_id?: string | null;
+          id?: string | null;
+          override_location_id?: string | null;
+          played_at?: string | null;
         };
       };
       my_teams: {
