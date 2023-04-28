@@ -265,7 +265,7 @@ export default function Page() {
                             })}
                           />
 
-                          <div className='mt-4 mb-4 h-32 w-2/4 overflow-scroll border border-neutral-300'>
+                          <div className='mb-4 mt-4 h-32 w-2/4 overflow-scroll border border-neutral-300'>
                             <h2 className='semi-bold text-xl'>
                               Terms of service
                             </h2>
@@ -285,7 +285,7 @@ export default function Page() {
                             </div>
                           </div>
                           <button
-                            className='btn btn-primary relative'
+                            className='btn-primary btn relative'
                             type='submit'
                           >
                             Looks good
@@ -326,10 +326,10 @@ export default function Page() {
                                     </p>
                                   </div>
                                   <div className='flex flex-col space-y-2'>
-                                    <button className='btn btn-xs border-none bg-neutral-800 text-white'>
+                                    <button className='btn-xs btn border-none bg-neutral-800 text-white'>
                                       view Team
                                     </button>
-                                    <button className='btn btn-xs border-none bg-neutral-800 text-white'>
+                                    <button className='btn-xs btn border-none bg-neutral-800 text-white'>
                                       request to join
                                     </button>
                                   </div>

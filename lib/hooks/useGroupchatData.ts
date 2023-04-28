@@ -12,8 +12,10 @@ import { Database } from '@/lib/types/database.types';
 export const useGroupchatData = (groupchatID: string) => {
   const client = useSupabaseClient<Database>();
 
-  return useSWR(`groupchatData-${groupchatID}`, () =>
-    groupchatDataFetcher(client, groupchatID)
+  return useSWR(
+    groupchatID === '' ? null : `groupchatData-${groupchatID}`,
+    () => groupchatDataFetcher(client, groupchatID),
+    { refreshInterval: 2000 }
   );
 };
 
@@ -25,7 +27,7 @@ export const groupchatDataFetcher = async (
     .from('groupchat_data_friendly')
     .select('*')
     .eq('groupchat_id', groupchatID)
-    .order('message_time', { ascending: false });
+    .order('message_time', { ascending: true });
 
   if (error) {
     throw error;

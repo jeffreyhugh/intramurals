@@ -104,7 +104,7 @@ export default function Page() {
                         key={index}
                         className='relative mt-4 overflow-hidden rounded-t-lg bg-primary shadow-lg'
                       >
-                        <div className='align-center absolute top-0 right-2 flex content-center space-x-2  p-2'>
+                        <div className='align-center absolute right-2 top-0 flex content-center space-x-2  p-2'>
                           <div className=''>
                             <Link href={`sports/${team.event_id}`}>
                               event details
@@ -171,7 +171,7 @@ export default function Page() {
                                           <div>
                                             {fileObject.file && (
                                               <button
-                                                className='btn btn-xs'
+                                                className='btn-xs btn'
                                                 onClick={() =>
                                                   submitFile(team.id as string)
                                                 }

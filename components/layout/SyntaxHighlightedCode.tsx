@@ -21,7 +21,7 @@ export default function CodeBlock({
     <div className='group relative' {...rest}>
       <button
         data-tip='Copy to clipboard'
-        className='btn btn-ghost tooltip tooltip-left btn-square btn-sm absolute right-1.5 top-1.5 z-10 hidden text-white group-hover:inline-flex'
+        className='btn-ghost tooltip tooltip-left btn-square btn-sm btn absolute right-1.5 top-1.5 z-10 hidden text-white group-hover:inline-flex'
         onClick={() => {
           navigator.clipboard.writeText(children?.toString() || '');
         }}

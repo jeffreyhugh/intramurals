@@ -37,7 +37,7 @@ export default function Page() {
               <div className='flex w-full justify-center'>
                 <button
                   type='button'
-                  className='btn btn-error'
+                  className='btn-error btn'
                   onClick={async () => {
                     if (confirm('Are you sure you want to sign out?')) {
                       await client.auth.signOut();

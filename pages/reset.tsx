@@ -127,7 +127,7 @@ export default function Page() {
 
                 <button
                   className={clsxm(
-                    'btn btn-primary mt-6',
+                    'btn-primary btn mt-6',
                     isLoading && 'loading'
                   )}
                   disabled={isLoading}

@@ -1,4 +1,3 @@
-import { useSupabaseClient, useUser } from '@supabase/auth-helpers-react';
 import { DateTime } from 'luxon';
 import moment from 'moment';
 import * as React from 'react';
@@ -9,8 +8,10 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 import { useEvents } from '@/lib/hooks/useEvents';
 import { useMyEvents } from '@/lib/hooks/useMyEvents';
+import { useMyGames } from '@/lib/hooks/useMyGames';
 import { useMyTeams } from '@/lib/hooks/useMyTeams';
 import { requireAuth } from '@/lib/requireAuth';
+import { Database } from '@/lib/types/database.types';
 
 import { EmptyIcon } from '@/components/icons/empty';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
@@ -23,65 +24,26 @@ import { dark } from '@/constant/colors';
 
 const localizer = momentLocalizer(moment);
 
-interface Games {
-  away_score: number;
-  away_team_id: string | null;
-  created_at: string;
-  event_id: string;
-  home_score: number;
-  home_team_id: string;
-  id: string;
-  override_location_id: string | null;
-  played_at: string;
-}
+type Games = Database['public']['Tables']['games']['Row'];
 
 export default function Page() {
   const sports = useEvents();
 
-  const supabase = useSupabaseClient();
-  const user = useUser();
   const myTeams = useMyTeams();
   const myEvents = useMyEvents();
 
-  const [myGameData, setMyGameData] = React.useState<Games[]>([]);
+  const { data: myGameData, error } = useMyGames();
 
-  React.useEffect(() => {
-    const fetch = async () => {
-      const { data: myTeamIds, error: teamError } = await supabase
-        .from('team_memberships')
-        .select()
-        .eq('user_id', user?.id);
+  if (error) {
+    //eslint-disable-next-line no-console
+    console.error(error);
+    toast.error('Could not fetch game data, please check the console');
+  }
 
-      if (teamError) {
-        //eslint-disable-next-line no-console
-        console.log(teamError);
-        toast.error('Check the console');
-        return;
-      }
-      const IDs = myTeamIds?.map((cur) => cur.team_id);
-
-      const { data: myGameData1, error: gameError1 } = await supabase
-        .from('games')
-        .select()
-        .in('home_team_id', IDs as string[]);
-
-      const { data: myGameData2, error: gameError2 } = await supabase
-        .from('games')
-        .select()
-        .in('away_team_id', IDs as string[]);
-
-      if (teamError || gameError1 || gameError2) {
-        //eslint-disable-next-line no-console
-        toast.error('error check the console');
-        throw teamError ? teamError : gameError1 ? gameError1 : gameError2;
-      }
-      setMyGameData(() => myGameData1?.concat(myGameData2));
-    };
-
-    if (!myTeams.isLoading) {
-      fetch();
-    }
-  }, [myTeams.isLoading, user, supabase]);
+  if (!myGameData) {
+    toast.error('Could not load game data');
+    return null;
+  }
 
   return (
     <Layout>
@@ -127,7 +89,7 @@ export default function Page() {
                                   <p>Event on</p>
                                   <p className='ml-3 font-semibold'>
                                     {DateTime.fromISO(
-                                      game.played_at
+                                      game.played_at || ''
                                     ).toLocaleString(DateTime.DATETIME_FULL)}
                                   </p>
                                   <p>location</p>
