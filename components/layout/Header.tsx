@@ -42,6 +42,16 @@ export default function Header() {
       },
       {
         className: 'btn-ghost',
+        children: 'Sports',
+        href: '/sports',
+      },
+      {
+        className: 'btn-ghost',
+        children: 'Chat',
+        href: '/chat',
+      },
+      {
+        className: 'btn-ghost',
         children: <TbUser className='h-5 w-5' title='Account' />,
         href: '/account',
       },
@@ -73,8 +83,8 @@ export default function Header() {
       },
       {
         className: 'btn-ghost',
-        children: 'Stats',
-        href: '/stats',
+        children: 'Chat',
+        href: '/chat',
       },
       {
         className: 'btn-ghost',

@@ -32,7 +32,7 @@ export default function Page() {
   const myTeams = useMyTeams();
   const myEvents = useMyEvents();
 
-  const { data: myGameData, error } = useMyGames();
+  const { data: myGameData, isLoading, error } = useMyGames();
 
   if (error) {
     //eslint-disable-next-line no-console
@@ -40,7 +40,7 @@ export default function Page() {
     toast.error('Could not fetch game data, please check the console');
   }
 
-  if (!myGameData) {
+  if (!isLoading && !myGameData) {
     toast.error('Could not load game data');
     return null;
   }
@@ -79,7 +79,7 @@ export default function Page() {
                           <h4 className='h4 text-bold'>Upcoming Events</h4>
                         </div>
                         <div className=' m-1 p-2'>
-                          {myGameData.map((game, index) => {
+                          {(myGameData || []).map((game, index) => {
                             return (
                               <div
                                 className='border-t border-neutral/20'
