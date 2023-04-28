@@ -10,7 +10,7 @@ import { TYPE_GROUPCHAT } from '@/lib/types/rows';
 /*
  * Use this hook to determine a groupchat's name
  */
-export const useGroupchats = (id: string) => {
+export const useGroupchat = (id: string) => {
   const client = useSupabaseClient<Database>();
 
   return useSWR('groupchats', () => groupchatsFetcher(client, id));
