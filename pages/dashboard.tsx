@@ -53,7 +53,7 @@ export default function Page() {
                         height={100}
                         src='/images/stock_Image.png'
                         alt='uploaded'
-                        className='ml-3 mt-1 mb-1 w-full'
+                        className='mb-1 ml-3 mt-1 w-full'
                       />
 
                       <div className='m-2 flex h-56 w-56 rounded-full'>
