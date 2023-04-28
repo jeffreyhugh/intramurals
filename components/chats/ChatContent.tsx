@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
+import { TbArrowLeft } from 'react-icons/tb';
 import { useSWRConfig } from 'swr';
 
 import clsxm from '@/lib/clsxm';
@@ -54,12 +55,23 @@ export const ChatContent = () => {
   });
 
   if (chatID === '') {
-    return <div>Choose a chat on the Sidebar to begin</div>;
+    return (
+      <div className='h-c max-h-c p-2'>
+        <div className='mt-16 flex items-center'>
+          <TbArrowLeft className='mr-2' />
+          <span>Choose a chat on the Sidebar to begin</span>
+        </div>
+      </div>
+    );
   } else {
     if (groupchatdata.error) {
-      return <div>Error fetching chat data, please check the console</div>;
+      return (
+        <div className='h-c max-h-c'>
+          Error fetching chat data, please check the console
+        </div>
+      );
     } else if (groupchatdata.isLoading || !groupchatdata.data) {
-      return <div>Loading...</div>;
+      return <div className='h-c max-h-c'>Loading...</div>;
     } else {
       return (
         <div className='h-c max-h-c flex w-full flex-col p-4'>

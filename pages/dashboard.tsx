@@ -99,12 +99,12 @@ export default function Page() {
                     data={[
                       {
                         title: 'Wins',
-                        value: data.wins || 0,
+                        value: (data.wins || 0) + 1,
                         color: light.success,
                       },
                       {
                         title: 'Losses',
-                        value: data.loses || 0,
+                        value: (data.loses || 0) + 1,
                         color: light.error,
                       },
                     ]}
