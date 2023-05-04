@@ -1,71 +1,27 @@
-# Starter
+# Intramurals
 
 ## Purpose
 
-[Theodorus Clarence](https://theodorusclarence) built an awesome Next.js/TailwindCSS [starter](https://github.com/theodorusclarence/ts-nextjs-tailwind-starter), but I wanted to add some features and tweak some others.
+To make a replacement for IMLeagues with fewer ads.
 
-## Features
+## Recreate
 
-The full list of features is on [starter.jh.ms/features](https://starter.jh.ms/features), but here's a quick rundown:
+### Backend
 
-- Next.js
-- TypeScript
-- DaisyUI
-- Supabase (with auth helpers)
-- MDX
-- React Hot Toast
-- Open Graph
-- Code Snippets
-- Opinionated CSS Utility Classes
-- Custom Anchor Tags
-- Prettier
-- Drone CI Lint and Deploy
-- Conventional Commits
+To recreate the backend, create a project on [Supabase](https://supabase.com).
+Run `schema.sql` in the new project (it's just a Postgres script) to recreate the database schema (without data).
+There will be some errors (because the default "blank" project has all the auth set up), but the important stuff should succeed.
 
-Plus most everything else in Theodorus Clarence's starter.
+### Frontend (Local)
 
-## Usage
+Clone the repository, then run `yarn` to install dependencies.
+This will also set up Git hooks.
 
-There are several different ways to start your project with this repo.
+After installing dependencies, copy `.env.example` to `.env.local` and fill in `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` with values from the Supabase project.
 
-### 1. Clone the repo
+Finally, run `yarn dev` to start the development server.
 
-1. Click the green "Use this template" button in the top-right. **Your repo will have an attribution** (this repo has an attribution to the original starter).
+### Frontend (Production)
 
-2. Using `create-next-app`
-
-```bash
-npx create-next-app -e https://github.com/jeffreyhugh/starter project-name
-```
-
-3. Deploy to Vercel
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https%3A%2F%2Fgithub.com%2Fjeffreyhugh%2Fstarter)
-
-4. Use `git`
-
-```bash
-git clone https://github.com/jeffreyhugh/starter.git
-```
-
-### 2. Install dependencies
-
-```bash
-yarn install
-```
-
-### 3. Start the development server
-
-```bash
-yarn dev
-```
-
-### 4. Change default values
-
-Find all the defaults that need to be changed with a global search for `!STARTERCONF`.
-
-Don't forget to update `package.json` as well.
-
-## License
-
-MIT
+We used [Vercel](https://vercel.com) to host the frontend.
+Sign in with GitHub, link the repo, and watch the deployment happen automatically whenever changes occur on the main branch.
